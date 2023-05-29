@@ -23,10 +23,16 @@ class Menu extends Phaser.Scene{
 
         // menu text
         this.add.text(game.config.width/2, game.config.height/4, 'Tokyo Dream', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2, 'Press SPACE to start', menuConfig).setOrigin(0.5);
 
+        keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     update(){
-      
+        if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
+            // Play mode
+            this.sound.play('sfx_select');
+            this.scene.start("playScene");    
+          }
     }
 }

@@ -8,7 +8,7 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-
+        // this.player = new Player(this, 200, 200, '', 0)
     }
 
     update() {
