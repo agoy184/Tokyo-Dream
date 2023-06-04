@@ -3,9 +3,9 @@ class Menu extends Phaser.Scene{
         super('menuScene');
     }
 
-    preload() {
-        this.load.audio('sfx_select', './assets/pop.wav');
-    }
+//    preload() {
+//        this.load.audio('sfx_select', './assets/pop.wav');
+//    }
 
     create(){
         let menuConfig = {
