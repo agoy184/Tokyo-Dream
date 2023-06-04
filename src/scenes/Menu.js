@@ -24,8 +24,10 @@ class Menu extends Phaser.Scene{
         // menu text
         this.add.text(game.config.width/2, game.config.height/4, 'Tokyo Dream', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2, 'Press SPACE to start', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, 3*game.config.height/4, 'Press D for credits', menuConfig).setOrigin(0.5);
 
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     }
 
     update(){
@@ -33,6 +35,11 @@ class Menu extends Phaser.Scene{
             // Play mode
             this.sound.play('sfx_select');
             this.scene.start("playScene");    
+          }
+          if (Phaser.Input.Keyboard.JustDown(keyD)) {
+            // Credits mode
+            this.sound.play('sfx_select');
+            this.scene.start("creditsScene");    
           }
     }
 }
