@@ -20,6 +20,7 @@ class Load extends Phaser.Scene {
         this.load.audio('sfx_select', './pop.wav');
 
         // images
+        this.load.image('Person', './EmptyChibi.png')
         this.load.image('ship', './smallship.png');
         this.load.image('shuukichi', './shuukichi_medium.png');
     }

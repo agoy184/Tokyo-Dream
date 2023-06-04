@@ -5,7 +5,15 @@ class Play extends Phaser.Scene {
 
     create() {
 
-        // this.player = new Player(this, 200, 200, '', 0)
+        this.grandpa = new Player(this, 200, 200, 'Person', 0)
+        this.grandma = new Player(this, 240, 240, 'Person', 0)
+
+        // Define keys
+        keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
+        keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
+        keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
+        keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
         
         this.dialog = new Dialog(this, 'hello', 'shuukichi');
 
@@ -16,6 +24,11 @@ class Play extends Phaser.Scene {
     }
 
     update() {
+        this.grandpa.update();
+        this.clock = this.time.delayedCall(3000, () => {
+            this.grandma.update();
+        }, null, this);
+
 
     }
 
