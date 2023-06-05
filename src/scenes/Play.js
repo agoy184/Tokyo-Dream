@@ -8,8 +8,8 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        this.grandpa = new Player(this, 200, 200, 'Person', 0)
-        this.grandma = new Player(this, 240, 240, 'Person', 0)
+        this.grandpa = new Player(this, 200, 200, 'Person', 0).setOrigin(0, 0);
+        this.grandma = new Player(this, 300, 300, 'Person', 0).setOrigin(0, 0);
 
         // Define keys
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -25,7 +25,23 @@ class Play extends Phaser.Scene {
             this.grandma.update();
         }, null, this);
 
+        if(this.checkCollision(this.grandpa, this.grandma) || this.checkCollision(this.hydrant2, this.grandma)) {
+            if (keyD.isDown) {
+                //this.grandma.x -= this.grandpa.moveSpeed;
+            }
+        }
 
+    }
+
+    checkCollision(grandpa, grandma) {
+        if (grandpa.x < grandma.x + grandma.width &&
+            grandpa.x + grandpa.width > grandma.x &&
+            grandpa.y < grandma.y + grandma.height &&
+            grandpa.height + grandpa.y > grandma.y) {
+                return true;
+            } else {
+                return false;
+            }
     }
 
 }   
