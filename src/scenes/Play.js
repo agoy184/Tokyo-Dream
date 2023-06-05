@@ -25,7 +25,8 @@ class Play extends Phaser.Scene {
             this.grandma.update();
         }, null, this);
 
-        if(this.checkCollision(this.grandpa, this.grandma) || this.checkCollision(this.hydrant2, this.grandma)) {
+        //if(this.checkCollision(this.grandpa, this.grandma) || this.checkCollision(this.hydrant2, this.grandma)) {
+        if(this.checkCollision(this.grandpa, this.grandma)) {
             if (keyD.isDown) {
                 //this.grandma.x -= this.grandpa.moveSpeed;
             }
