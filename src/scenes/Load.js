@@ -17,12 +17,20 @@ class Load extends Phaser.Scene {
         this.load.path = './assets/';
 
         // audio
-        this.load.audio('sfx_select', './pop.wav');
+        this.load.audio('sfx_select', '/pop.wav');
+
+        // temp images
+        this.load.image('ship', '/smallship.png');
+        this.load.image('bigShip', '/spaceship.png');
+        this.load.image('rocket', '/rocket.png');
 
         // images
-        this.load.image('Person', './EmptyChibi.png')
-        this.load.image('ship', './smallship.png');
-        this.load.image('shuukichi', './shuukichi_medium.png');
+        this.load.image('Person', '/EmptyChibi.png')
+        this.load.image('shuukichi', '/shuukichi_medium.png');
+        this.load.image('tomi', '/tomi_medium.png');
+        this.load.image('shige', '/shige_medium.png');
+        this.load.image('noriko', '/noriko_medium.png');
+        this.load.image('koichi', '/koichi_medium.png');
     }
 
     create() {
