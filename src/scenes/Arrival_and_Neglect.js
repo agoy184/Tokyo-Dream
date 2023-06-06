@@ -12,12 +12,12 @@ class Arrival_and_Neglect extends Phaser.Scene {
             loop: true,
         }
 
-        this.song = this.sound.add('scene_1_background_music');
-        this.song.play(musicConfig);
+        this.music = this.sound.add('scene_1_background_music');
+        this.music.play(musicConfig);
 
         // fade music in at start of scene
         this.tween = this.tweens.add({
-            targets: this.song,
+            targets: this.music,
             volume: {from: 0, to: 1},
             duration: 5000,
         });
@@ -62,10 +62,13 @@ class Arrival_and_Neglect extends Phaser.Scene {
         this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
     
         this.tween = this.tweens.add({
-            targets: this.song,
+            targets: this.music,
             volume: {from: 1, to: 0},
             duration: 5000,
-            onComplete: () => {this.scene.start('hotelAndDepartureScene')}
+            onComplete: () => {
+                this.music.stop();
+                this.scene.start('hotelAndDepartureScene')
+            }
         });
     }
 }   
