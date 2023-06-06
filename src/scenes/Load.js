@@ -14,7 +14,7 @@ class Load extends Phaser.Scene {
             loadingBar.destroy();
         });
 
-        this.load.path = './assets/';
+        this.load.path = 'assets/';
 
         // load audio
         this.load.audio('scene_1_background_music', 'audio/Greener_Pastures-Darren_Curtis.mp3');
@@ -23,10 +23,24 @@ class Load extends Phaser.Scene {
         this.load.audio('sfx_select', 'audio/pop.wav');
 
         // load images
+        // temp images
         this.load.image('Person', 'EmptyChibi.png')
+        this.load.image('ship', 'smallship.png');
+        this.load.image('bigShip', 'spaceship.png');
+        this.load.image('rocket', 'rocket.png');
+
+        // background images
         this.load.image('arrival_and_neglect_background', 'arrival_and_neglect_background.png')
+
+        // dialog images
+        this.load.image('shuukichi', 'shuukichi_medium.png');
+        this.load.image('tomi', 'tomi_medium.png');
+        this.load.image('shige', 'shige_medium.png');
+        this.load.image('noriko', 'noriko_medium.png');
+        this.load.image('koichi', 'koichi_medium.png');
+ 
     }
-    
+
     create() {
         this.scene.start('menuScene');
     }
