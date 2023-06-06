@@ -9,11 +9,11 @@ class Funeral extends Phaser.Scene {
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
 
+        // music
         let musicConfig = {
             volume: 0,
             loop: true,
         }
-
         this.music = this.sound.add('scene_3_background_music');
         this.music.play(musicConfig);
 

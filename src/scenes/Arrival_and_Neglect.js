@@ -7,13 +7,14 @@ class Arrival_and_Neglect extends Phaser.Scene {
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
 
+        // adding background image
         this.background = this.add.image(game.config.width / 2, game.config.height / 2, 'arrival_and_neglect_background').setOrigin(0.5, 0.5);
 
+        // music
         let musicConfig = {
             volume: 0,
             loop: true,
         }
-
         this.music = this.sound.add('scene_1_background_music');
         this.music.play(musicConfig);
 
@@ -24,7 +25,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             duration: 5000,
         });
 
-       // temp to advance to next scene
+        // temp to advance to next scene
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
         this.grandpa = new Player(this, 200, 200, 'Person', 0)
@@ -48,6 +49,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
      }
 
     update() {
+        // Grandpa moves, Grandma follows move update
         this.grandpa.update();
         this.clock = this.time.delayedCall(3000, () => {
             this.grandma.update();
@@ -57,7 +59,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             this.endScene();
         }
     }
-
+    // End scene transitions
     endScene() {
         this.input.keyboard.enabled = false;
     
