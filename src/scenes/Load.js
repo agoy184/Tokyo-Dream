@@ -29,8 +29,10 @@ class Load extends Phaser.Scene {
         this.load.image('bigShip', 'spaceship.png');
         this.load.image('rocket', 'rocket.png');
 
+        // background images
+        this.load.image('arrival_and_neglect_background', 'arrival_and_neglect_background.png')
+
         // dialog images
-        this.load.image('Person', 'EmptyChibi.png')
         this.load.image('shuukichi', 'shuukichi_medium.png');
         this.load.image('tomi', 'tomi_medium.png');
         this.load.image('shige', 'shige_medium.png');

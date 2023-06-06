@@ -7,6 +7,8 @@ class Arrival_and_Neglect extends Phaser.Scene {
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
 
+        this.background = this.add.image(game.config.width / 2, game.config.height / 2, 'arrival_and_neglect_background').setOrigin(0.5, 0.5);
+
         let musicConfig = {
             volume: 0,
             loop: true,
