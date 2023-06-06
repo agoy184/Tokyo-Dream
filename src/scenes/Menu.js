@@ -3,10 +3,6 @@ class Menu extends Phaser.Scene{
         super('menuScene');
     }
 
-//    preload() {
-//        this.load.audio('sfx_select', './assets/pop.wav');
-//    }
-
     create(){
         let menuConfig = {
             fontFamily: 'Verdana',
@@ -34,7 +30,7 @@ class Menu extends Phaser.Scene{
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             // Play mode
             this.sound.play('sfx_select');
-            this.scene.start("playScene");    
+            this.scene.start("arrivalAndNeglectScene");    
           }
           if (Phaser.Input.Keyboard.JustDown(keyD)) {
             // Credits mode
