@@ -28,8 +28,8 @@ class Arrival_and_Neglect extends Phaser.Scene {
         // temp to advance to next scene
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
-        this.grandpa = new Player(this, 200, 200, 'Person', 0)
-        this.grandma = new Player(this, 240, 240, 'Person', 0)
+        this.grandpa = new Player(this, 200, 200, 'Shukichi', 0)
+        this.grandma = new Player(this, 240, 240, 'Tomi', 0)
 
         // Define keys
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -93,10 +93,11 @@ class Arrival_and_Neglect extends Phaser.Scene {
             ["shuukichi", "Ah, that’s okay."],
             ["tomi", "That’s okay, we’ll see you soon."],
         ];
+
         // temp to figure out pressing on sprite to show dialog
-        this.ship = this.add.image(game.config.width / 2, game.config.height / 2, 'ship').setOrigin(0.5, 0.5).setInteractive();
-        this.bigShip = this.add.image(game.config.width / 3, game.config.height / 3, 'bigShip').setOrigin(0.5, 0.5).setInteractive().setVisible(false);
-        this.rocket = this.add.image(game.config.width / 1.5, game.config.height / 1.5, 'rocket').setOrigin(0.5, 0.5).setInteractive();
+        this.ship = this.add.image(game.config.width / 2, game.config.height / 2, 'Shige').setOrigin(0.5, 0.5).setInteractive();
+        this.bigShip = this.add.image(game.config.width / 3, game.config.height / 3, 'Koichi').setOrigin(0.5, 0.5).setInteractive().setVisible(false);
+        this.rocket = this.add.image(game.config.width / 1.5, game.config.height / 1.5, 'Noriko').setOrigin(0.5, 0.5).setInteractive();
         this.dialog_box = this.add.image(game.config.width / 1.75, game.config.height - 75, 'dialog_box').setOrigin(0.5, 0.5).setVisible(false);
        
         // index indicator where to show dialog
