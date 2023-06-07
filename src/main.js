@@ -1,4 +1,5 @@
 // Abel Goy 
+// Marlene Inoue
 
 let config = {
     type: Phaser.AUTO,
