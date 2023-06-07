@@ -95,8 +95,9 @@ class Arrival_and_Neglect extends Phaser.Scene {
         ];
         // temp to figure out pressing on sprite to show dialog
         this.ship = this.add.image(game.config.width / 2, game.config.height / 2, 'ship').setOrigin(0.5, 0.5).setInteractive();
-        this.bigShip = this.add.image(game.config.width / 3, game.config.height / 3, 'bigShip').setOrigin(0.5, 0.5).setInteractive();
+        this.bigShip = this.add.image(game.config.width / 3, game.config.height / 3, 'bigShip').setOrigin(0.5, 0.5).setInteractive().setVisible(false);
         this.rocket = this.add.image(game.config.width / 1.5, game.config.height / 1.5, 'rocket').setOrigin(0.5, 0.5).setInteractive();
+        this.dialog_box = this.add.image(game.config.width / 1.75, game.config.height - 75, 'dialog_box').setOrigin(0.5, 0.5).setVisible(false);
        
         // index indicator where to show dialog
         this.nextDialogIndex = -1;
@@ -130,7 +131,13 @@ class Arrival_and_Neglect extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(keyENTER)) {
             this.endScene();
         }
+
+        if (this.talkedToNoriko && this.talkedToShige && !this.talkedToKoichi) {
+            this.bigShip.setVisible(true);
+        }
+
     }
+
     // End scene transitions
     endScene() {
         this.input.keyboard.enabled = false;
@@ -193,6 +200,7 @@ function shigeDialog(scene) {
         scene.nextDialogIndex = -1;
         scene.currentlyTalkingToShige = false;
         scene.talkedToShige = true;
+        scene.dialog_box.setVisible(false);
         return;
     }
 
@@ -202,7 +210,11 @@ function shigeDialog(scene) {
         scene.currText.destroy();
     }
 
-    scene.currentlyTalkingToShige = true;
+    if (scene.nextDialogIndex == -1) {
+        scene.dialog_box.setVisible(true);
+
+        scene.currentlyTalkingToShige = true;
+    }
 
     console.log('curr dialog index: ', scene.nextDialogIndex);
     ++scene.nextDialogIndex;
@@ -232,6 +244,7 @@ function norikoDialog(scene) {
         scene.nextDialogIndex = -1;
         scene.currentlyTalkingToNoriko = false;
         scene.talkedToNoriko = true;
+        scene.dialog_box.setVisible(false);
         return;
     }
 
@@ -241,7 +254,11 @@ function norikoDialog(scene) {
         scene.currText.destroy();
     }
 
-    scene.currentlyTalkingToNoriko = true;
+    if (scene.nextDialogIndex == -1) {
+        scene.dialog_box.setVisible(true);
+
+        scene.currentlyTalkingToNoriko = true;
+    }
 
     console.log('curr dialog index: ', scene.nextDialogIndex);
     ++scene.nextDialogIndex;
@@ -268,6 +285,7 @@ function koichiDialog(scene) {
         scene.nextDialogIndex = -1;
         scene.currentlyTalkingToKoichi = false;
         scene.talkedToKoichi = true;
+        scene.dialog_box.setVisible(false);
         return;
     }
 
@@ -277,7 +295,11 @@ function koichiDialog(scene) {
         scene.currText.destroy();
     }
 
-    scene.currentlyTalkingToKoichi = true;
+    if (scene.nextDialogIndex == -1) {
+        scene.dialog_box.setVisible(true);
+
+        scene.currentlyTalkingToKoichi = true;
+    }
 
     console.log('curr dialog index: ', scene.nextDialogIndex);
     ++scene.nextDialogIndex;
