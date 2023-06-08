@@ -99,7 +99,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
         this.ship = this.add.image(game.config.width / 2, game.config.height / 2, 'Shige').setOrigin(0.5, 0.5).setInteractive();
         this.bigShip = this.add.image(game.config.width / 3, game.config.height / 3, 'Koichi').setOrigin(0.5, 0.5).setInteractive().setVisible(false);
         this.rocket = this.add.image(game.config.width / 1.5, game.config.height / 1.5, 'Noriko').setOrigin(0.5, 0.5).setInteractive();
-        this.dialog_box = this.add.image(game.config.width / 1.75, game.config.height - 75, 'dialog_box').setOrigin(0.5, 0.5).setVisible(false);
+        this.dialog_box = this.add.image(game.config.width / 1.65, game.config.height - 75, 'dialog_box').setOrigin(0.5, 0.5).setVisible(false);
        
         // index indicator where to show dialog
         this.nextDialogIndex = -1;
@@ -224,7 +224,7 @@ function shigeDialog(scene) {
 
     // display current character and text
     scene.character = scene.add.image(game.config.width / 8, game.config.height - 75, scene.shigeScript[scene.nextDialogIndex][0]);
-    scene.currText = scene.add.text(game.config.width / 4, game.config.height - 100, scene.shigeScript[scene.nextDialogIndex][1]).setOrigin(0, 0).setWordWrapWidth(game.config.width / 1.5);
+    scene.currText = scene.add.text(game.config.width / 3.5, game.config.height - 100, scene.shigeScript[scene.nextDialogIndex][1]).setOrigin(0, 0).setWordWrapWidth(game.config.width / 1.5);
 }
 
 function norikoDialog(scene) {
@@ -268,7 +268,7 @@ function norikoDialog(scene) {
 
     // display current character and text
     scene.character = scene.add.image(game.config.width / 8, game.config.height - 75, scene.norikoScript[scene.nextDialogIndex][0]);
-    scene.currText = scene.add.text(game.config.width / 4, game.config.height - 100, scene.norikoScript[scene.nextDialogIndex][1]).setOrigin(0, 0).setWordWrapWidth(game.config.width / 1.5);
+    scene.currText = scene.add.text(game.config.width / 3.5, game.config.height - 100, scene.norikoScript[scene.nextDialogIndex][1]).setOrigin(0, 0).setWordWrapWidth(game.config.width / 1.5);
 }
 
 function koichiDialog(scene) {
@@ -309,5 +309,5 @@ function koichiDialog(scene) {
 
     // display current character and text
     scene.character = scene.add.image(game.config.width / 8, game.config.height - 75, scene.koichiScript[scene.nextDialogIndex][0]);
-    scene.currText = scene.add.text(game.config.width / 4, game.config.height - 100, scene.koichiScript[scene.nextDialogIndex][1]).setOrigin(0, 0).setWordWrapWidth(game.config.width / 1.5);
+    scene.currText = scene.add.text(game.config.width / 3.5, game.config.height - 100, scene.koichiScript[scene.nextDialogIndex][1]).setOrigin(0, 0).setWordWrapWidth(game.config.width / 1.5);
 }
