@@ -1,15 +1,20 @@
+/**
+ * requirement
+ * sprite image
+ * text
+ *  both inside a 2d array
+ */
+
 class Dialog {
-    constructor(scene, dialog, character) {
+    constructor(scene, dialog, spriteX, spriteY, show) {
 
-        let x = game.config.width / 2;
-        let y = game.config.height / 2;
+        this.x = spriteX;
+        this.y = spriteY;
 
-//        super(scene, x, y, character);
-
+        this.scene = scene;
         this.dialog = dialog;
-        this.character = character;
 
-        //scene.add.existing(this);
+        this.show = show;
     }
 
     create() {
@@ -18,6 +23,10 @@ class Dialog {
     }
 
     update() {
+        // advance to next dialog when space is pressed
+//        if (Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
+//            console.log('pressed space');
+//        }
     }
 
 }

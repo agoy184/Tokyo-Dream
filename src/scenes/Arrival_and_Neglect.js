@@ -5,6 +5,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
 
     create() {
         // disable user input until scene is fully faded in
+        // DOES NOT WORK FOR MOUSE CLICKS
         this.input.keyboard.enabled = false;
 
         // adding background image
