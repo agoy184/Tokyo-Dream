@@ -26,6 +26,9 @@ class Load extends Phaser.Scene {
         // temp images
         this.load.image('Tomi', 'tomi_spr.png')
         this.load.image('Shukichi', 'shukichi_spr.png')
+        this.load.image('ShukichiL', 'shukichi_spr_L.png')
+        this.load.image('ShukichiR', 'shukichi_spr_R.png')
+        this.load.image('ShukichiB', 'shukichi_spr_B.png')
         this.load.image('Shige', 'shige_spr.png')
         this.load.image('Koichi', 'koichi_spr.png')
         this.load.image('Noriko', 'noriko_spr.png')
