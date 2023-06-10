@@ -17,7 +17,7 @@ class Load extends Phaser.Scene {
 
         this.load.path = 'assets/';
 
-        // load audio
+        // background audio
         this.load.audio('scene_1_background_music', 'audio/Greener_Pastures-Darren_Curtis.mp3');
         this.load.audio('scene_2_background_music', 'audio/Sakuya2-PerituneMaterial.mp3');
         this.load.audio('scene_3_background_music', 'audio/Rain_on_the_Window-Alex_Productions.mp3');
@@ -40,11 +40,11 @@ class Load extends Phaser.Scene {
 
         // dialog images
         this.load.image('dialog_box', 'dialog_box.png');
-        this.load.image('shuukichi', 'old_sprites/shuukichi_medium.png');
-        this.load.image('tomi', 'old_sprites/tomi_medium.png');
-        this.load.image('shige', 'old_sprites/shige_medium.png');
-        this.load.image('noriko', 'old_sprites/noriko_medium.png');
-        this.load.image('koichi', 'old_sprites/koichi_medium.png');
+        this.load.image('Shukichi_Dialog', 'shukichi_cu.png');
+        this.load.image('Tomi_Dialog', 'tomi_cu.png');
+        this.load.image('Shige_Dialog', 'shige_cu.png');
+        this.load.image('Noriko_Dialog', 'noriko_cu.png');
+        this.load.image('Koichi_Dialog', 'koichi_cu.png');
     }
 
     create() {
