@@ -21,24 +21,33 @@ class Play extends Phaser.Scene {
 
     update() {
         this.grandpa.update();
-        this.clock = this.time.delayedCall(3000, () => {
-            this.grandma.update();
-        }, null, this);
+        //this.grandma.update();
+        console.log(this.grandpa.x)
 
         //if(this.checkCollision(this.grandpa, this.grandma) || this.checkCollision(this.hydrant2, this.grandma)) {
         if(this.checkCollision(this.grandpa, this.grandma)) {
+            console.log("collide")
+            if (keyW.isDown) {
+                this.grandpa.y += this.grandpa.moveSpeed;
+            }
+            if (keyS.isDown) {
+                this.grandpa.y -= this.grandpa.moveSpeed;
+            }
+            if (keyA.isDown) {
+                this.grandpa.x += this.grandpa.moveSpeed;
+            }
             if (keyD.isDown) {
-                //this.grandma.x -= this.grandpa.moveSpeed;
+                this.grandpa.x -= this.grandpa.moveSpeed;
             }
         }
 
     }
 
     checkCollision(grandpa, grandma) {
-        if (grandpa.x < grandma.x + grandma.width &&
-            grandpa.x + grandpa.width > grandma.x &&
-            grandpa.y < grandma.y + grandma.height &&
-            grandpa.height + grandpa.y > grandma.y) {
+        if (grandpa.x < grandma.x + 51 &&
+            grandpa.x + 51 > grandma.x &&
+            grandpa.y < grandma.y + 128 &&
+            grandpa.y + 128 > grandma.y) {
                 return true;
             } else {
                 return false;
