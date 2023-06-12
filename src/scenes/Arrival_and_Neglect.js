@@ -29,7 +29,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
         // temp to advance to next scene
         keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
-        this.grandpa = new Player(this, 200, 200, 'Shukichi', 0)
+        this.grandpa = new Player(this, 150, 180, 'Shukichi', 0)
         this.grandma = new Player(this, 240, 240, 'Tomi', 0)
 
         // Define keys
@@ -96,8 +96,8 @@ class Arrival_and_Neglect extends Phaser.Scene {
         ];
 
         // temp to figure out pressing on sprite to show dialog
-        this.ship = this.add.sprite(game.config.width / 2, game.config.height / 2, 'Shige').setOrigin(0.5, 0.5).setInteractive();
-        this.bigShip = this.add.image(game.config.width / 3, game.config.height / 3, 'Koichi').setOrigin(0.5, 0.5).setInteractive().setVisible(false);
+        this.ship = this.add.image(game.config.width / 2, game.config.height / 2, 'Shige').setOrigin(0.5, 0.5).setInteractive();
+        this.bigShip = this.add.image(game.config.width / 2, game.config.height / 5, 'Koichi').setOrigin(0.5, 0.5).setInteractive().setVisible(false);
         this.rocket = this.add.image(game.config.width / 1.5, game.config.height / 1.5, 'Noriko').setOrigin(0.5, 0.5).setInteractive();
         this.dialog_box = this.add.image(game.config.width / 1.65, game.config.height - 75, 'dialog_box').setOrigin(0.5, 0.5).setVisible(false);
        
@@ -132,9 +132,26 @@ class Arrival_and_Neglect extends Phaser.Scene {
     update() {
         // Grandpa moves, Grandma follows move update
         this.grandpa.update();
-        this.clock = this.time.delayedCall(3000, () => {
-            this.grandma.update();
-        }, null, this);
+
+        if((this.checkCollision(this.grandpa, this.ship)) || (this.checkCollision(this.grandma, this.ship)) || ((this.checkCollision(this.grandpa, this.bigShip)) && (this.bigShip.visible)) || (this.checkCollision(this.grandma, this.bigShip) && (this.bigShip.visible)) || ((this.checkCollision(this.grandpa, this.rocket))) || ((this.checkCollision(this.grandma, this.rocket)))) {
+            console.log("collide")
+            if (keyW.isDown) {
+                this.grandpa.y += this.grandpa.moveSpeed;
+                this.grandma.y += this.grandpa.moveSpeed;
+            }
+            if (keyS.isDown) {
+                this.grandpa.y -= this.grandpa.moveSpeed;
+                this.grandma.y -= this.grandpa.moveSpeed;
+            }
+            if (keyA.isDown) {
+                this.grandpa.x += this.grandpa.moveSpeed;
+                this.grandma.x += this.grandpa.moveSpeed;
+            }
+            if (keyD.isDown) {
+                this.grandpa.x -= this.grandpa.moveSpeed;
+                this.grandma.x -= this.grandpa.moveSpeed;
+            }
+        }
 
         // TODO: dialog stuff
         this.test.update();
@@ -150,6 +167,17 @@ class Arrival_and_Neglect extends Phaser.Scene {
             this.bigShip.setVisible(true);
         }
 
+    }
+
+    checkCollision(char1, char2) {
+        if (char1.x < char2.x + 63 &&
+            char1.x + 63 > char2.x &&
+            char1.y < char2.y + 128 &&
+            char1.y + 128 > char2.y) {
+                return true;
+            } else {
+                return false;
+            }
     }
 
     // End scene transitions
