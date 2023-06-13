@@ -39,19 +39,27 @@ class Arrival_and_Neglect extends Phaser.Scene {
             duration: 5000,
         });
 
-        // temp to advance to next scene
-        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-
-        this.grandpa = new Player(this, 150, 180, 'Shukichi', 0)
-        this.grandma = new Player(this, 240, 240, 'Tomi', 0)
-
         // Define keys
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
+        //this.grandpa = new Player(this, 150, 180, 'Shukichi', 0)
+        //this.grandma = new Player(this, 240, 240, 'Tomi', 0)
+        this.grandpa = this.physics.add.sprite(150, 270, 'Shukichi', 0)
+        this.grandma = this.physics.add.sprite(240, 270, 'Tomi', 0)
+        this.grandpa.body.setCollideWorldBounds(true)
+        this.grandma.body.setCollideWorldBounds(true)
+
+        // enable collision
+        terrainLayer.setCollisionByProperty({ collides: true })
+        
+        this.physics.add.collider(this.grandpa, terrainLayer)
+        this.physics.add.collider(this.grandma, terrainLayer)
+        
         // fade scene in from black at start of scene
         this.cam = this.cameras.main.fadeIn(5000, 0, 0, 0);
 
@@ -141,23 +149,40 @@ class Arrival_and_Neglect extends Phaser.Scene {
         this.grandpa.update();
         this.grandma.update();
 
+        // temp controls
+        if (keyW.isDown && this.grandpa.y >= 0 && this.grandma.y >= 0) {
+            this.grandpa.y -= 5;
+            this.grandma.y -= 5;
+        } else if (keyS.isDown && this.grandpa.y <= game.config.height - 55 && this.grandma.y <= game.config.height - 55) {
+            this.grandpa.y += 5;
+            this.grandma.y += 5;
+        }
+        if (keyA.isDown && this.grandpa.x >= 0 && this.grandma.x >= 0) {
+            this.grandpa.x -= 5;
+            this.grandma.x -= 5;
+        } else if (keyD.isDown && this.grandpa.x <= game.config.width - 55 && this.grandma.x <= game.config.width - 55) {
+            this.grandpa.x += 5;
+            this.grandma.x += 5;
+        }
+
+
         if((this.checkCollision(this.grandpa, this.ship)) || (this.checkCollision(this.grandma, this.ship)) || ((this.checkCollision(this.grandpa, this.bigShip)) && (this.bigShip.visible)) || (this.checkCollision(this.grandma, this.bigShip) && (this.bigShip.visible)) || ((this.checkCollision(this.grandpa, this.rocket))) || ((this.checkCollision(this.grandma, this.rocket)))) {
             console.log("collide")
             if (keyW.isDown) {
-                this.grandpa.y += this.grandpa.moveSpeed;
-                this.grandma.y += this.grandpa.moveSpeed;
+                this.grandpa.y += 5;
+                this.grandma.y += 5;
             }
             if (keyS.isDown) {
-                this.grandpa.y -= this.grandpa.moveSpeed;
-                this.grandma.y -= this.grandpa.moveSpeed;
+                this.grandpa.y -= 5;
+                this.grandma.y -= 5;
             }
             if (keyA.isDown) {
-                this.grandpa.x += this.grandpa.moveSpeed;
-                this.grandma.x += this.grandpa.moveSpeed;
+                this.grandpa.x += 5;
+                this.grandma.x += 5;
             }
             if (keyD.isDown) {
-                this.grandpa.x -= this.grandpa.moveSpeed;
-                this.grandma.x -= this.grandpa.moveSpeed;
+                this.grandpa.x -= 5;
+                this.grandma.x -= 5;
             }
         }
 
