@@ -84,6 +84,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             ["Tomi_Dialog", "That’s true, we’re glad to know you’re doing great things in your community."],
             ["Koichi_Dialog", "I have some crackers for us to snack on before dinner, I got these from Yokohama."],
             ["sound", "open_container"],
+            ["pause", 3000],
             ["Tomi_Dialog", "Oh wow, these look delicious."],
             ["Shukichi_Dialog", "I can’t wait to eat them."],
             //["*phone rings*
@@ -97,7 +98,6 @@ class Arrival_and_Neglect extends Phaser.Scene {
         this.shige = this.add.image(game.config.width / 2, game.config.height / 2, 'Shige').setOrigin(0.5, 0.5).setInteractive();
         this.koichi = this.add.image(game.config.width / 2, game.config.height / 5, 'Koichi').setOrigin(0.5, 0.5).setInteractive().setVisible(false);
         this.noriko = this.add.image(game.config.width / 1.5, game.config.height / 1.5, 'Noriko').setOrigin(0.5, 0.5).setInteractive();
-        this.dialog_box = this.add.image(game.config.width / 1.65, game.config.height - 75, 'dialog_box').setOrigin(0.5, 0.5).setVisible(false);
       
         // dialog once player collides with one of the characters
         this.shigeDialog = new Dialog(this, this.shigeScript, false, false, false);
