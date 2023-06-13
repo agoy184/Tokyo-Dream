@@ -1,11 +1,5 @@
 /**
  * Credits to Alex Groff for inspiration of a Dialog class
- * requirement
- * sprite image
- * text
- *  both inside a 2d array
- * is talking to another sprite?
- * display or not
  */
 
 class Dialog {
