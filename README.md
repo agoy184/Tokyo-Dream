@@ -1,1 +1,1 @@
-CMPM 120 Game adaptation of Tokyo Dream
+CMPM 120 Game adaptation of Tokyo Story
