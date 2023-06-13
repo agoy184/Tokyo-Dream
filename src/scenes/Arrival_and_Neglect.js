@@ -66,9 +66,10 @@ class Arrival_and_Neglect extends Phaser.Scene {
             ["Shukichi_Dialog", "It’s good to see you again too. Have you been keeping busy at work?"],
             ["Noriko_Dialog", "Yes. We were quite busy a few months ago, but we’re not so busy now."],
             ["Tomi_Dialog", "Glad to hear you’re able to keep yourself stable, you must have been lonely these past few years."],
-            ["Shukichi_Dialog", "Good to hear, but it must be lonesome without Shouji around."],
+            ["Shukichi_Dialog", "It must be lonesome without Shouji around."],
             ["Noriko_Dialog", "It’s alright, I like the solitude."],
             ["Tomi_Dialog", "You may think that now, but when you get older, you really appreciate the company."],
+            ["Tomi_Dialog", 'We just want you to be happy Noriko, you’re still very young. You don’t need to stay with us.'],
             ["Noriko_Dialog", "Well…"],
             ["Noriko_Dialog", "Oh right, I got the day off tomorrow if you two would like to go sightseeing tomorrow."],
             ["Shukichi_Dialog", "We would love to, I can’t wait for you to show us around Tokyo."],
@@ -84,9 +85,11 @@ class Arrival_and_Neglect extends Phaser.Scene {
             ["Tomi_Dialog", "That’s true, we’re glad to know you’re doing great things in your community."],
             ["Koichi_Dialog", "I have some crackers for us to snack on before dinner, I got these from Yokohama."],
             ["sound", "open_container"],
+            ["pause", 3000],
             ["Tomi_Dialog", "Oh wow, these look delicious."],
             ["Shukichi_Dialog", "I can’t wait to eat them."],
-            //["*phone rings*
+            ["sound", 'tele_ring'],
+            ["pause", 3500],
             ["Koichi_Dialog", "Hello?...Yes that’s me…How’s their temperature?...I see, I’ll be right over."],
             ["Koichi_Dialog", "Sorry, I have to visit another patient, it will take a while. You two might sleep before I get home."],
             ["Shukichi_Dialog", "Ah, that’s okay."],
@@ -97,7 +100,6 @@ class Arrival_and_Neglect extends Phaser.Scene {
         this.shige = this.add.image(game.config.width / 2, game.config.height / 2, 'Shige').setOrigin(0.5, 0.5).setInteractive();
         this.koichi = this.add.image(game.config.width / 2, game.config.height / 5, 'Koichi').setOrigin(0.5, 0.5).setInteractive().setVisible(false);
         this.noriko = this.add.image(game.config.width / 1.5, game.config.height / 1.5, 'Noriko').setOrigin(0.5, 0.5).setInteractive();
-        this.dialog_box = this.add.image(game.config.width / 1.65, game.config.height - 75, 'dialog_box').setOrigin(0.5, 0.5).setVisible(false);
       
         // dialog once player collides with one of the characters
         this.shigeDialog = new Dialog(this, this.shigeScript, false, false, false);
@@ -128,6 +130,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             this.grandma.update();
         }
 
+        // display koichi character once talked to both shige and noriko
         if (!this.showedKoichi && this.shigeDialog.getFinishedDialog() && this.norikoDialog.getFinishedDialog()) {
             this.showedKoichi = true;
             this.koichi.setVisible(true);
@@ -149,10 +152,10 @@ class Arrival_and_Neglect extends Phaser.Scene {
         } else if ((this.checkCollision(this.grandpa, this.koichi) && this.koichi.visible) ||
                    (this.checkCollision(this.grandma, this.koichi) && (this.koichi.visible))) {
 
-
             if (!this.koichiDialog.getIsShowing() && !this.koichiDialog.getIsTalkingToSomeoneElse()) {
                 this.koichiDialog.setIsShowing(true);
                 this.koichiDialog.setIsTalkingToMe(true);
+
                 this.norikoDialog.setIsTalkingToSomeoneElse(true);
                 this.shigeDialog.setIsTalkingToSomeoneElse(true);
              }
