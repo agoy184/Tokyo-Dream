@@ -3,12 +3,26 @@ class Arrival_and_Neglect extends Phaser.Scene {
         super('arrivalAndNeglectScene');
     }
 
+    preload() {
+        this.load.path = './assets/'
+        this.load.image('s1Image', 'Japanese Wall Set.png')
+        this.load.tilemapTiledJSON('s1JSON', 'scene1.json')
+
+    }
+
     create() {
+        // tilemap stuff
+        const map = this.add.tilemap('s1JSON')
+        const tileset = map.addTilesetImage('Japanese Wall Set', 's1Image')
+
+        const bgLayer = map.createLayer('Background', tileset, 0, 0)
+        const terrainLayer = map.createLayer('Tile Layer 1', tileset, 0, 0)
+
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
 
         // adding background image
-        this.background = this.add.image(game.config.width / 2, game.config.height / 2, 'arrival_and_neglect_background').setOrigin(0.5, 0.5);
+        //this.background = this.add.image(game.config.width / 2, game.config.height / 2, 'arrival_and_neglect_background').setOrigin(0.5, 0.5);
 
         // music
         let musicConfig = {
