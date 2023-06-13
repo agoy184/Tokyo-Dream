@@ -1,4 +1,5 @@
 /**
+ * Credits to Alex Groff for inspiration of a Dialog class
  * requirement
  * sprite image
  * text
@@ -58,7 +59,9 @@ class Dialog {
         }
 
         // advance to next dialog when space is pressed
-        if (Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
+        //if (this.show && Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
+        if (this.show) {
+            console.log(this.show);
             console.log('scrip length: ', this.dialog.length);
             // get out if is talking to another sprite
             if (this.isTalkingToSomeoneElse) {
@@ -89,18 +92,26 @@ class Dialog {
                 this.isTalkingToMe = true;
             }
 
-            this.currCharacter.setTexture(this.dialog[this.currDialogIndex][0]);
-            this.currText.setText(this.dialog[this.currDialogIndex][1]);
+            if (this.currDialogIndex == 0 || Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
+            // play audio if given sound
+            if (this.dialog[this.currDialogIndex][0] == 'sound') {
+                this.sfx = this.scene.sound.add(this.dialog[this.currDialogIndex][1]);
+                this.sfx.play();
+
+                // pause the dialog to let the audio play
+                this.scene.time.delayedCall(3000, () => {
+                })
+
+            // otherwise set the text and character
+            } else {
+                this.currCharacter.setTexture(this.dialog[this.currDialogIndex][0]);
+                this.currText.setText(this.dialog[this.currDialogIndex][1]);
+            }
 
             ++this.currDialogIndex;
+             }
 
-            // TODO: display the character and text
-
-            //for (let i = 0; i < this.dialog.length; ++i) {
-            //     console.log('character: ', this.dialog[i][0]);
-            //     console.log('text: ', this.dialog[i][1]);
-            //}
-        }
+      }
 
     }
 
@@ -112,9 +123,6 @@ class Dialog {
     changeCharacter() {
     }
 
-    removeBackground() {
-    }
-
     // gets the current information if the dialog is finished
     getFinishedDialog() {
         return this.finishedDialog;
@@ -123,6 +131,26 @@ class Dialog {
     // sets the dialog to finished
     setFinishedDialog(isFinished) {
         this.finishedDialog = isFinished;
+    }
+
+    getIsTalkingToMe() {
+        return this.isTalkingToMe;
+    }
+
+    setIsTalkingToMe(myTurn) {
+        this.isTalkingToMe = myTurn;
+    }
+
+    getIsTalkingToSomeoneElse() {
+        return this.isTalkingToSomeoneElse;
+    }
+
+    setIsTalkingToSomeoneElse(notMyTurn) {
+        this.isTalkingToSomeoneElse = notMyTurn;
+    }
+
+    getIsShowing() {
+        return this.show;
     }
 
     setIsShowing(willShow) {

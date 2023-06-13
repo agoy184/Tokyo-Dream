@@ -21,7 +21,10 @@ class Load extends Phaser.Scene {
         this.load.audio('scene_1_background_music', 'audio/Greener_Pastures-Darren_Curtis.mp3');
         this.load.audio('scene_2_background_music', 'audio/Sakuya2-PerituneMaterial.mp3');
         this.load.audio('scene_3_background_music', 'audio/Rain_on_the_Window-Alex_Productions.mp3');
+
+        //sfx
         this.load.audio('sfx_select', 'audio/pop.wav');
+        this.load.audio('open_container', ['audio/open_container.wav', 'audio/open_container.mp3', 'audio/open_container.ogg']);
 
         // load images
         // temp images
