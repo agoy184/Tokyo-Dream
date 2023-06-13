@@ -34,10 +34,13 @@ class Load extends Phaser.Scene {
         this.load.image('ShukichiB', 'shukichi_spr_B.png')
         this.load.image('Shige', 'shige_spr.png')
         this.load.image('ShigeL', 'shige_spr_L.png')
-        this.load.image('ShigeR', 'shRige_spr_R.png')
-        this.load.image('ShigeB', 'shiBge_spr_B.png')
+        this.load.image('ShigeR', 'shige_spr_R.png')
+        this.load.image('ShigeB', 'shige_spr_B.png')
         this.load.image('Koichi', 'koichi_spr.png')
         this.load.image('Noriko', 'noriko_spr.png')
+        this.load.image('NorikoL', 'noriko_spr_L.png')
+        this.load.image('NorikoR', 'noriko_spr_R.png')
+        this.load.image('NorikoB', 'noriko_spr_B.png')
         this.load.image('Person', 'EmptyChibi.png')
         this.load.image('ship', 'smallship.png');
         this.load.image('bigShip', 'spaceship.png');
