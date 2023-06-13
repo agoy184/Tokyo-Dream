@@ -4,8 +4,6 @@ class Hotel_and_Departure extends Phaser.Scene {
     }
 
     create() {
-        this.add.text(game.config.width / 2, game.config.height / 2, 'Scene 2').setOrigin(0.5, 0.5);;
-
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
 
@@ -22,6 +20,10 @@ class Hotel_and_Departure extends Phaser.Scene {
             duration: 5000,
         });
 
+        this.grandpa = this.physics.add.sprite(150, 270, 'Shukichi', 0);
+        this.grandma = this.physics.add.sprite(240, 270, 'Tomi', 0);
+
+        // script for the scene
         this.hotelScript = [
             ["Tomi_Dialog", "It was so nice of our kids to invite us to Atami, I haven’t been able to experience a spa."],
             ["Shukichi_Dialog", "Very true, however we ended up being another financial burden to them."],
@@ -38,9 +40,10 @@ class Hotel_and_Departure extends Phaser.Scene {
             ["Tomi_Dialog", "Homesick already?"],
             ["Shukichi_Dialog", "Nah, we’ve seen everything, we’ve seen our children, we’ve visited Tokyo, we’ve visited Atami, it’s probably time to go home."],
             ["Tomi_Dialog", "That sounds good."],
+            ["Tomi_Dialog", "Ah..."],
             ["pause", 3000],
             ["Shukichi_Dialog", "What’s wrong?"],
-            ["Tomi_Dialog", "Nothing, I got a bit dizzy, but I’m okay now."],
+            ["Tomi_Dialog", "I got a bit dizzy, but I’m okay now."],
             ["Shukichi_Dialog", "That’s because you didn’t sleep."],
             ["Tomi_Dialog", "You’re probably right."],
         ];
@@ -50,6 +53,7 @@ class Hotel_and_Departure extends Phaser.Scene {
         // to advance next dialog
         this.cursors = this.input.keyboard.createCursorKeys();
 
+        // to give a "night feel"
         this.cameras.main.setAlpha(0.5);
         // fade scene in from black at start of scene
         this.cam = this.cameras.main.fadeIn(5000, 0, 0, 0);
@@ -66,14 +70,15 @@ class Hotel_and_Departure extends Phaser.Scene {
         );
 
         this.end = false;
-
     }
 
     update() {
+        // have reached the end of the scene, return
         if (this.end) {
             return
         }
 
+        // update the dialog when camera finished fading in
         if (this.dialogReady && this.hotelDialog.getIsTalkingToMe()) {
             this.hotelDialog.update();
        }
@@ -88,12 +93,14 @@ class Hotel_and_Departure extends Phaser.Scene {
 
         }
 
+        // start end of scene once finished dialog
         if (this.hotelDialog.getFinishedDialog()) {
             this.end = true;
             this.endScene();
         }
     }
 
+    // End scene transitions
     endScene() {
         this.input.keyboard.enabled = false;
     
