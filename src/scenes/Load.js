@@ -25,6 +25,7 @@ class Load extends Phaser.Scene {
         //sfx
         this.load.audio('sfx_select', 'audio/pop.wav');
         this.load.audio('open_container', ['audio/open_container.wav', 'audio/open_container.mp3', 'audio/open_container.ogg']);
+        this.load.audio('tele_ring', ['audio/uk-old-104244.mp3']);
 
         // load images
         // temp images
