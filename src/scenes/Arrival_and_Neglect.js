@@ -165,7 +165,6 @@ class Arrival_and_Neglect extends Phaser.Scene {
             this.grandma.x += 5;
         }
 
-
         if((this.checkCollision(this.grandpa, this.ship)) || (this.checkCollision(this.grandma, this.ship)) || ((this.checkCollision(this.grandpa, this.bigShip)) && (this.bigShip.visible)) || (this.checkCollision(this.grandma, this.bigShip) && (this.bigShip.visible)) || ((this.checkCollision(this.grandpa, this.rocket))) || ((this.checkCollision(this.grandma, this.rocket)))) {
             console.log("collide")
             if (keyW.isDown) {
