@@ -5,7 +5,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
 
     preload() {
         this.load.path = './assets/'
-        this.load.image('s1Image', 'Japanese Wall Set.png')
+        this.load.image('s1Image', 'monoJPWallset.png')
         this.load.tilemapTiledJSON('s1JSON', 'scene1.json')
 
     }
@@ -13,10 +13,10 @@ class Arrival_and_Neglect extends Phaser.Scene {
     create() {
         // tilemap stuff
         const map = this.add.tilemap('s1JSON')
-        const tileset = map.addTilesetImage('Japanese Wall Set', 's1Image')
+        const tileset = map.addTilesetImage('monoJPWallset', 's1Image')
 
-        const bgLayer = map.createLayer('Background', tileset, 0, 0)
-        const terrainLayer = map.createLayer('Tile Layer 1', tileset, 0, 0)
+        const bgLayer = map.createLayer('MonoBackground', tileset, 0, 0)
+        const terrainLayer = map.createLayer('MonoTerrain', tileset, 0, 0)
 
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
