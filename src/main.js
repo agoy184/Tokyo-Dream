@@ -1,6 +1,15 @@
 // Abel Goy 
 // Marlene Inoue
 
+/**
+ * Phaser Components Used
+ * physics: player sprite
+ * cameras: fading in and out between sceens
+ * text objects: menu text, dialog text
+ * tween manager: tweening the music
+ * tilemaps: the background
+ */
+
 let config = {
     type: Phaser.AUTO,
     width: 640,
