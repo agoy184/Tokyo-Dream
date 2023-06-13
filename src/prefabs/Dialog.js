@@ -87,7 +87,7 @@ class Dialog {
    
                 // pause the dialog
                 } else if (this.dialog[this.currDialogIndex][0] == 'pause') {
-                    this.scene.time.delayedCall(this.dialog[this.currDialogIndex][1], () => {})
+                   this.scene.time.delayedCall(this.dialog[this.currDialogIndex][1], () => {});
                 // otherwise set the text and character
                 } else {
                     this.currCharacter.setTexture(this.dialog[this.currDialogIndex][0]);
@@ -99,6 +99,10 @@ class Dialog {
 
       }
 
+    }
+
+    getCurrDialogIndex() {
+        return this.currDialogIndex;
     }
 
     // gets the current information if the dialog is finished
