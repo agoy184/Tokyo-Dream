@@ -78,7 +78,6 @@ class Dialog {
         
         // display the dialog at the start
         if (this.currDialogIndex == 0) {
-            console.log(this.dialog.length);
             this.dialogBox.setVisible(true);
             this.currCharacter.setVisible(true);
             this.currText.setVisible(true);

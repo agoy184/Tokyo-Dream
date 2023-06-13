@@ -81,7 +81,7 @@ class Hotel_and_Departure extends Phaser.Scene {
         // update the dialog when camera finished fading in
         if (this.dialogReady && this.hotelDialog.getIsTalkingToMe()) {
             this.hotelDialog.update();
-       }
+        }
 
         // once reached the "end of the night" in the dialog
         if (this.hotelDialog.getCurrDialogIndex() == 8) {
