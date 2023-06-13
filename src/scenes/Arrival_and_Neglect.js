@@ -120,12 +120,6 @@ class Arrival_and_Neglect extends Phaser.Scene {
             return;
         }
 
-        // go to next scene once talked to all other characters
-        if (!this.end && this.shigeDialog.getFinishedDialog() && this.norikoDialog.getFinishedDialog() && this.koichiDialog.getFinishedDialog()) {
-            this.end = true;
-            this.endScene();
-        }
-
         // Grandpa moves
         this.grandpa.update();
 
@@ -223,6 +217,12 @@ class Arrival_and_Neglect extends Phaser.Scene {
                 this.shigeDialog.setIsTalkingToSomeoneElse(false);    
                 this.koichiDialog.setIsTalkingToSomeoneElse(false);    
             }
+        }
+
+        // go to next scene once talked to all other characters
+        if (!this.end && this.shigeDialog.getFinishedDialog() && this.norikoDialog.getFinishedDialog() && this.koichiDialog.getFinishedDialog()) {
+            this.end = true;
+            this.endScene();
         }
 
     }
