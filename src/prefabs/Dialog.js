@@ -88,8 +88,6 @@ class Dialog {
 
         // display the dialog
         if (this.currDialogIndex == 0 || Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
-        //if (Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
-            console.log(this.currDialogIndex);
             // play audio if given sound
             if (this.dialog[this.currDialogIndex][0] == 'sound') {
                 this.sfx = this.scene.sound.add(this.dialog[this.currDialogIndex][1]);
