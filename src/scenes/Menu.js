@@ -19,7 +19,7 @@ class Menu extends Phaser.Scene{
 
         // menu text
         this.add.text(game.config.width/2, game.config.height/6, 'Tokyo Dream', menuConfig).setOrigin(0.5);
-        this.add.text(game.config.width/2, game.config.height/2.5, 'Controls\nWASD to move\nClick on sprites for dialog\nENTER for next scene', menuConfig).setAlign('center').setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2.5, 'Controls\nWASD to move\nSPACE to continue dialog', menuConfig).setAlign('center').setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/1.5, 'Press SPACE to start', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/1.25, 'Press D for credits', menuConfig).setOrigin(0.5);
 
