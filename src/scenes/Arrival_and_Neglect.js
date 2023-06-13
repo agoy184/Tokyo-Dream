@@ -3,12 +3,26 @@ class Arrival_and_Neglect extends Phaser.Scene {
         super('arrivalAndNeglectScene');
     }
 
+    preload() {
+        this.load.path = './assets/'
+        this.load.image('s1Image', 'monoJPWallset.png')
+        this.load.tilemapTiledJSON('s1JSON', 'scene1.json')
+
+    }
+
     create() {
+        // tilemap stuff
+        const map = this.add.tilemap('s1JSON')
+        const tileset = map.addTilesetImage('monoJPWallset', 's1Image')
+
+        const bgLayer = map.createLayer('MonoBackground', tileset, 0, 0)
+        const terrainLayer = map.createLayer('MonoTerrain', tileset, 0, 0)
+
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
 
         // adding background image
-        this.background = this.add.image(game.config.width / 2, game.config.height / 2, 'arrival_and_neglect_background').setOrigin(0.5, 0.5);
+        //this.background = this.add.image(game.config.width / 2, game.config.height / 2, 'arrival_and_neglect_background').setOrigin(0.5, 0.5);
 
         // music
         let musicConfig = {
@@ -25,16 +39,27 @@ class Arrival_and_Neglect extends Phaser.Scene {
             duration: 5000,
         });
 
-        this.grandpa = new Player(this, 150, 180, 'Shukichi', 0)
-        this.grandma = new Player(this, 240, 240, 'Tomi', 0)
-
         // Define keys
         keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
         keyS = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.S);
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
 
+        //this.grandpa = new Player(this, 150, 180, 'Shukichi', 0)
+        //this.grandma = new Player(this, 240, 240, 'Tomi', 0)
+        this.grandpa = this.physics.add.sprite(150, 270, 'Shukichi', 0)
+        this.grandma = this.physics.add.sprite(240, 270, 'Tomi', 0)
+        this.grandpa.body.setCollideWorldBounds(true)
+        this.grandma.body.setCollideWorldBounds(true)
+
+        // enable collision
+        terrainLayer.setCollisionByProperty({ collides: true })
+        
+        this.physics.add.collider(this.grandpa, terrainLayer)
+        this.physics.add.collider(this.grandma, terrainLayer)
+        
         // fade scene in from black at start of scene
         this.cam = this.cameras.main.fadeIn(5000, 0, 0, 0);
 
@@ -123,12 +148,28 @@ class Arrival_and_Neglect extends Phaser.Scene {
         }
 
         // Grandpa moves
-        this.grandpa.update();
+        //this.grandpa.update();
+
+        // temp controls
+        if (keyW.isDown && this.grandpa.y >= 0 && this.grandma.y >= 0) {
+            this.grandpa.y -= 5;
+            this.grandma.y -= 5;
+        } else if (keyS.isDown && this.grandpa.y <= game.config.height - 55 && this.grandma.y <= game.config.height - 55) {
+            this.grandpa.y += 5;
+            this.grandma.y += 5;
+        }
+        if (keyA.isDown && this.grandpa.x >= 0 && this.grandma.x >= 0) {
+            this.grandpa.x -= 5;
+            this.grandma.x -= 5;
+        } else if (keyD.isDown && this.grandpa.x <= game.config.width - 55 && this.grandma.x <= game.config.width - 55) {
+            this.grandpa.x += 5;
+            this.grandma.x += 5;
+        }
 
         // Grandma follows move update if not colliding with Grandpa
-        if (!this.checkCollision(this.grandpa, this.grandma)) {
-            this.grandma.update();
-        }
+        //if (!this.checkCollision(this.grandpa, this.grandma)) {
+        //    this.grandma.update();
+        //}
 
         // display koichi character once talked to both shige and noriko
         if (!this.showedKoichi && this.shigeDialog.getFinishedDialog() && this.norikoDialog.getFinishedDialog()) {
@@ -218,7 +259,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
                 this.norikoDialog.setIsTalkingToMe(false);
 
                 this.shigeDialog.setIsTalkingToSomeoneElse(false);    
-                this.koichiDialog.setIsTalkingToSomeoneElse(false);    
+                this.koichiDialog.setIsTalkingToSomeoneElse(false);
             }
         }
 
@@ -231,6 +272,23 @@ class Arrival_and_Neglect extends Phaser.Scene {
     }
 
     movePlayer(grandpa, grandma) {
+        if (keyW.isDown) {
+                grandpa.y += 5;
+                grandma.y += 5;
+        }
+        if (keyS.isDown) {
+                grandpa.y -= 5;
+                grandma.y -= 5;
+        }
+        if (keyA.isDown) {
+                grandpa.x += 5;
+                grandma.x += 5;
+        }
+        if (keyD.isDown) {
+                grandpa.x -= 5;
+                grandma.x -= 5;
+        }
+        /*
         if (keyW.isDown) {
             grandpa.y += grandpa.moveSpeed;
             grandma.y += grandpa.moveSpeed;
@@ -247,6 +305,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             grandpa.x -= grandpa.moveSpeed;
             grandma.x -= grandpa.moveSpeed;
         }
+        */
     }
 
     checkCollision(char1, char2) {
