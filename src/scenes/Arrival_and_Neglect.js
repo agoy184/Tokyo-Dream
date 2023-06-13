@@ -5,7 +5,6 @@ class Arrival_and_Neglect extends Phaser.Scene {
 
     create() {
         // disable user input until scene is fully faded in
-        // DOES NOT WORK FOR MOUSE CLICKS
         this.input.keyboard.enabled = false;
 
         // adding background image
@@ -26,9 +25,6 @@ class Arrival_and_Neglect extends Phaser.Scene {
             duration: 5000,
         });
 
-        // temp to advance to next scene
-        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
-
         this.grandpa = new Player(this, 150, 180, 'Shukichi', 0)
         this.grandma = new Player(this, 240, 240, 'Tomi', 0)
 
@@ -48,9 +44,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             }
         );
 
-
-        // TODO: class that can deal with dialog
-//        this.dialog = new Dialog(this, 'hello', 'shuukichi');
+        // dialog for Shige
         this.shigeScript = [
             ["Shige_Dialog", "You guys made it on time! Sorry we had to ask a taxi to come by the train."],
             ["Shukichi_Dialog", "That’s all right, I just hope we didn’t cost you all too much money. But at least the driver gave us a tour of all of Tokyo to Koichi’s house."],
@@ -64,6 +58,8 @@ class Arrival_and_Neglect extends Phaser.Scene {
             ["Tomi_Dialog", "We’ll see you later."],
             
         ];
+
+        // dialog for Noriko
         this.norikoScript = [
             ["Noriko_Dialog", "Welcome to Tokyo mom and dad, it’s good to see you two again."],
             ["Tomi_Dialog", "It’s been quite a long time."],
@@ -77,6 +73,8 @@ class Arrival_and_Neglect extends Phaser.Scene {
             ["Noriko_Dialog", "Oh right, I got the day off tomorrow if you two would like to go sightseeing tomorrow."],
             ["Shukichi_Dialog", "We would love to, I can’t wait for you to show us around Tokyo."],
         ];
+
+        // dialog for Koichi
         this.koichiScript = [
             ["Koichi_Dialog", "Welcome home, it must have been a long journey here."],
             ["Tomi_Dialog", "It was nice to see all the cities on the way here."],
@@ -86,7 +84,6 @@ class Arrival_and_Neglect extends Phaser.Scene {
             ["Tomi_Dialog", "That’s true, we’re glad to know you’re doing great things in your community."],
             ["Koichi_Dialog", "I have some crackers for us to snack on before dinner, I got these from Yokohama."],
             ["sound", "open_container"],
-            //["*open box*
             ["Tomi_Dialog", "Oh wow, these look delicious."],
             ["Shukichi_Dialog", "I can’t wait to eat them."],
             //["*phone rings*
@@ -97,48 +94,36 @@ class Arrival_and_Neglect extends Phaser.Scene {
         ];
 
         // temp to figure out pressing on sprite to show dialog
-        this.ship = this.add.image(game.config.width / 2, game.config.height / 2, 'Shige').setOrigin(0.5, 0.5).setInteractive();
-        this.bigShip = this.add.image(game.config.width / 2, game.config.height / 5, 'Koichi').setOrigin(0.5, 0.5).setInteractive().setVisible(false);
-        this.rocket = this.add.image(game.config.width / 1.5, game.config.height / 1.5, 'Noriko').setOrigin(0.5, 0.5).setInteractive();
+        this.shige = this.add.image(game.config.width / 2, game.config.height / 2, 'Shige').setOrigin(0.5, 0.5).setInteractive();
+        this.koichi = this.add.image(game.config.width / 2, game.config.height / 5, 'Koichi').setOrigin(0.5, 0.5).setInteractive().setVisible(false);
+        this.noriko = this.add.image(game.config.width / 1.5, game.config.height / 1.5, 'Noriko').setOrigin(0.5, 0.5).setInteractive();
         this.dialog_box = this.add.image(game.config.width / 1.65, game.config.height - 75, 'dialog_box').setOrigin(0.5, 0.5).setVisible(false);
-       
-//        // index indicator where to show dialog
-//        this.nextDialogIndex = -1;
-//
-//        // the character to show
-//        this.character = null;
-//        // the text to show
-//        this.currText = null;
-//
-//        // to check which characters currently talking to
-//        this.currentlyTalkingToShige = false;
-//        this.currentlyTalkingToNoriko = false;
-//        this.currentlyTalkingToKoichi = false;
-//
-        // to check which characters have already talked to
-        this.talkedToShige = false;
-        this.talkedToNoriko = false;
-        this.talkedToKoichi = false;
-//
-//        this.isCurrentlyTalking = false;
-//
-//        this.input.on('pointerup', dialog);
-
-        //this.test = new Dialog(this, this.shigeScript, false, false, this.isCurrentlyTalking);
-        this.shigeTalk = new Dialog(this, this.shigeScript, false, false, this.isCurrentlyTalking);
-        this.norikoTalk = new Dialog(this, this.norikoScript, false, false, this.isCurrentlyTalking);
-        this.koichiTalk = new Dialog(this, this.koichiScript, false, false, this.isCurrentlyTalking);
+      
+        // dialog once player collides with one of the characters
+        this.shigeDialog = new Dialog(this, this.shigeScript, false, false, false);
+        this.norikoDialog = new Dialog(this, this.norikoScript, false, false, false);
+        this.koichiDialog = new Dialog(this, this.koichiScript, false, false, false);
 
         // to advance next dialog
         this.cursors = this.input.keyboard.createCursorKeys();
 
         // to display Koichi sprite later
         this.showedKoichi = false;
+
+        // to indicate end of the scene
+        this.end = false;
      }
 
     update() {
-        if (this.talkedToKoichi && this.talkedToNoriko && this.talkedToShige) {
+        // don't continue in update once the scene is over
+        if (this.end) {
             return;
+        }
+
+        // go to next scene once talked to all other characters
+        if (!this.end && this.shigeDialog.getFinishedDialog() && this.norikoDialog.getFinishedDialog() && this.koichiDialog.getFinishedDialog()) {
+            this.end = true;
+            this.endScene();
         }
 
         // Grandpa moves
@@ -149,148 +134,96 @@ class Arrival_and_Neglect extends Phaser.Scene {
             this.grandma.update();
         }
 
-        if (!this.showedKoichi && this.shigeTalk.getFinishedDialog() && this.norikoTalk.getFinishedDialog()) {
+        if (!this.showedKoichi && this.shigeDialog.getFinishedDialog() && this.norikoDialog.getFinishedDialog()) {
             this.showedKoichi = true;
-            this.bigShip.setVisible(true);
+            this.koichi.setVisible(true);
         }
 
         // check collision with Shige
-        if((this.checkCollision(this.grandpa, this.ship) && this.ship.visible) || (this.checkCollision(this.grandma, this.ship) && this.ship.visible)) {
-            if (!this.shigeTalk.getIsShowing() && !this.shigeTalk.getIsTalkingToSomeoneElse()) {
-                this.shigeTalk.setIsShowing(true);
-                this.shigeTalk.setIsTalkingToMe(true);
-                this.norikoTalk.setIsTalkingToSomeoneElse(true);
-                this.koichiTalk.setIsTalkingToSomeoneElse(true);
+        if((this.checkCollision(this.grandpa, this.shige) && this.shige.visible) || (this.checkCollision(this.grandma, this.shige) && this.shige.visible)) {
+            if (!this.shigeDialog.getIsShowing() && !this.shigeDialog.getIsTalkingToSomeoneElse()) {
+                this.shigeDialog.setIsShowing(true);
+                this.shigeDialog.setIsTalkingToMe(true);
+
+                this.norikoDialog.setIsTalkingToSomeoneElse(true);
+                this.koichiDialog.setIsTalkingToSomeoneElse(true);
             }
                 
-
-            console.log("collide iwth shige")
             this.movePlayer(this.grandpa, this.grandma);
 
         // check collision with Koichi
-        } else if ((this.checkCollision(this.grandpa, this.bigShip) && this.bigShip.visible) ||
-                   (this.checkCollision(this.grandma, this.bigShip) && (this.bigShip.visible))) {
+        } else if ((this.checkCollision(this.grandpa, this.koichi) && this.koichi.visible) ||
+                   (this.checkCollision(this.grandma, this.koichi) && (this.koichi.visible))) {
 
-            console.log("collide iwth koichi")
-            console.log(this.koichiTalk.getIsShowing());
-            console.log(this.koichiTalk.getIsTalkingToMe());
-            console.log(this.koichiTalk.getIsTalkingToSomeoneElse());
 
-            if (!this.koichiTalk.getIsShowing() && !this.koichiTalk.getIsTalkingToSomeoneElse()) {
-                this.koichiTalk.setIsShowing(true);
-                this.koichiTalk.setIsTalkingToMe(true);
-                this.norikoTalk.setIsTalkingToSomeoneElse(true);
-                this.shigeTalk.setIsTalkingToSomeoneElse(true);
+            if (!this.koichiDialog.getIsShowing() && !this.koichiDialog.getIsTalkingToSomeoneElse()) {
+                this.koichiDialog.setIsShowing(true);
+                this.koichiDialog.setIsTalkingToMe(true);
+                this.norikoDialog.setIsTalkingToSomeoneElse(true);
+                this.shigeDialog.setIsTalkingToSomeoneElse(true);
              }
 
             this.movePlayer(this.grandpa, this.grandma);
 
         // check collision with Noriko
-        } else if (((this.checkCollision(this.grandpa, this.rocket))) || ((this.checkCollision(this.grandma, this.rocket)))) {
-            if (!this.norikoTalk.getIsShowing() && !this.norikoTalk.getIsTalkingToSomeoneElse()) {
-                this.norikoTalk.setIsShowing(true);
-                this.norikoTalk.setIsTalkingToMe(true);
-                this.koichiTalk.setIsTalkingToSomeoneElse(true);
-                this.shigeTalk.setIsTalkingToSomeoneElse(true);
+        } else if (((this.checkCollision(this.grandpa, this.noriko))) || ((this.checkCollision(this.grandma, this.noriko)))) {
+            if (!this.norikoDialog.getIsShowing() && !this.norikoDialog.getIsTalkingToSomeoneElse()) {
+                this.norikoDialog.setIsShowing(true);
+                this.norikoDialog.setIsTalkingToMe(true);
+
+                this.shigeDialog.setIsTalkingToSomeoneElse(true);
+                this.koichiDialog.setIsTalkingToSomeoneElse(true);
              }
 
-             
-             console.log("collide iwth noriko")
              this.movePlayer(this.grandpa, this.grandma);
         }
 
-        // temp to advance to next scene
-        // FIXME: is player is pressing on WASD and enter at same time, the characters keep moving in that direction
-//        if (Phaser.Input.Keyboard.JustDown(keyENTER)) {
-//            this.endScene();
-//        }
-
-//        if (this.koichiTalk.getFinishedDialog() && this.shigeTalk.getFinishedDialog() && this.norikoTalk.getFinishedDialog()) {
-//            this.endScene();
-//        }
-
-//        if (this.talkedToKoichi && this.talkedToNoriko && this.talkedToShige && Phaser.Input.Keyboard.JustDown(keyENTER)) {
-//            this.endScene();
-//        }
-
-        console.log(this.talkedToKoichi, this.talkedToNoriko, this.talkedToShige);
-
-
-//
-//        // show Koichi's sprite when finished talking to Shige and Noriko
-//        if (this.talkedToNoriko && this.talkedToShige && !this.talkedToKoichi) {
-//            this.bigShip.setVisible(true);
-//        }
 
         // talk with Shige when in collision
-        if (this.shigeTalk.getIsTalkingToMe()) {
-            // TODO: dialog stuff
-            this.shigeTalk.update();
+        if (this.shigeDialog.getIsTalkingToMe()) {
+            this.shigeDialog.update();
 
-            if (this.shigeTalk.getFinishedDialog()) {
-                this.shigeTalk.setIsShowing(false);
-                this.shigeTalk.setIsTalkingToMe(false);
-                this.talkedToShige = true;
+            if (this.shigeDialog.getFinishedDialog()) {
+                this.shigeDialog.setIsShowing(false);
+                this.shigeDialog.setIsTalkingToMe(false);
 
-                this.koichiTalk.setIsTalkingToSomeoneElse(false);    
-                this.norikoTalk.setIsTalkingToSomeoneElse(false);    
+                this.norikoDialog.setIsTalkingToSomeoneElse(false);    
+                this.koichiDialog.setIsTalkingToSomeoneElse(false);    
             }
+        }
         // remove Shige from scene
-        } else if (!this.shigeTalk.getIsTalkingToMe() && this.shigeTalk.getFinishedDialog()) {
-            this.ship.setVisible(false);
+        if (!this.shigeDialog.getIsTalkingToMe() && this.shigeDialog.getFinishedDialog()) {
+            this.shige.setVisible(false);
         }
 
         // talk with Koichi when in collision
-        if (this.koichiTalk.getIsTalkingToMe()) {
-            // TODO: dialog stuff
-            this.koichiTalk.update();
+        if (this.koichiDialog.getIsTalkingToMe()) {
+            this.koichiDialog.update();
 
-            if (this.koichiTalk.getFinishedDialog()) {
-                this.koichiTalk.setIsShowing(false);
-                this.koichiTalk.setIsTalkingToMe(false);
-                this.talkedToKoichi = true;
+            if (this.koichiDialog.getFinishedDialog()) {
+                this.koichiDialog.setIsShowing(false);
+                this.koichiDialog.setIsTalkingToMe(false);
 
-                this.shigeTalk.setIsTalkingToSomeoneElse(false);    
-                this.norikoTalk.setIsTalkingToSomeoneElse(false);    
+                this.shigeDialog.setIsTalkingToSomeoneElse(false);    
+                this.norikoDialog.setIsTalkingToSomeoneElse(false);    
             }
+        }
         // remove Koichi from scene
-        } else if (!this.koichiTalk.getIsTalkingToMe() && this.koichiTalk.getFinishedDialog()) {
-            this.bigShip.setVisible(false);
+        if (!this.koichiDialog.getIsTalkingToMe() && this.koichiDialog.getFinishedDialog()) {
+            this.koichi.setVisible(false);
         }
 
-        if (this.norikoTalk.getIsTalkingToMe()) {
-            // TODO: dialog stuff
-            this.norikoTalk.update();
+        if (this.norikoDialog.getIsTalkingToMe()) {
+            this.norikoDialog.update();
 
-            if (this.norikoTalk.getFinishedDialog()) {
-                this.norikoTalk.setIsShowing(false);
-                this.norikoTalk.setIsTalkingToMe(false);
-                this.talkedToNoriko = true;
+            if (this.norikoDialog.getFinishedDialog()) {
+                this.norikoDialog.setIsShowing(false);
+                this.norikoDialog.setIsTalkingToMe(false);
 
-                this.shigeTalk.setIsTalkingToSomeoneElse(false);    
-                this.koichiTalk.setIsTalkingToSomeoneElse(false);    
+                this.shigeDialog.setIsTalkingToSomeoneElse(false);    
+                this.koichiDialog.setIsTalkingToSomeoneElse(false);    
             }
         }
-
-        if (this.talkedToKoichi && this.talkedToNoriko && this.talkedToShige) {
-//            this.input.keyboard.enabled = false;
-//    
-//            this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
-//    
-//            this.tween = this.tweens.add({
-//                targets: this.music,
-//                volume: {from: 1, to: 0},
-//                duration: 5000,
-//                onComplete: () => {
-//                    this.music.stop();
-//                    this.scene.start('hotelAndDepartureScene')
-//                }
-//            });
- 
-            this.endScene();
-        }
-
-
 
     }
 
@@ -346,158 +279,3 @@ class Arrival_and_Neglect extends Phaser.Scene {
         });
     }
 }   
-/*
-function dialog(pointer, gameObject) {
-    if (gameObject == 0) {
-        return;
-    }
-
-    if (this.scene.talkedToShige && this.scene.talkedToNoriko && this.scene.talkedToKoichi) {
-        return;
-    }
-
-    console.log('clicked on sprite');
-
-    if (this.scene.ship != null && gameObject[0].x == this.scene.ship.x) {
-        shigeDialog(this.scene);
-    } else if (gameObject[0].x == this.scene.rocket.x) {
-        norikoDialog(this.scene);
-    } else if (this.scene.bigShip != null && gameObject[0].x == this.scene.bigShip.x && this.scene.talkedToShige && this.scene.talkedToNoriko) {
-        // talk to koichi once finished falking to shige noriko
-        koichiDialog(this.scene);
-    }
-
-}
-
-function shigeDialog(scene) {
-    // return if finished talking to shige
-    if (scene.talkedToShige) {
-        return;
-    }
-
-    // return if currently talking to the other characters
-    if (scene.currentlyTalkingToNoriko) {
-        return;
-    }
-
-    // if reached end of dialog, remove current character, text, sprite, and change booleans
-    if (scene.nextDialogIndex >= scene.shigeScript.length - 1) {
-        scene.currText.destroy();
-        scene.character.destroy();
-        scene.ship.destroy();
-        scene.ship = null;
-
-        // restart dialog for next character to talk to
-        scene.nextDialogIndex = -1;
-        scene.currentlyTalkingToShige = false;
-        scene.talkedToShige = true;
-        scene.dialog_box.setVisible(false);
-        return;
-    }
-
-    // remove current character and text
-    if (scene.character != null && scene.currText != null) {
-        scene.character.destroy();
-        scene.currText.destroy();
-    }
-
-    if (scene.nextDialogIndex == -1) {
-        scene.dialog_box.setVisible(true);
-
-        scene.currentlyTalkingToShige = true;
-    }
-
-    console.log('curr dialog index: ', scene.nextDialogIndex);
-    ++scene.nextDialogIndex;
-    console.log('next dialog index: ', scene.nextDialogIndex);
-
-    // display current character and text
-    scene.character = scene.add.image(game.config.width / 8, game.config.height - 75, scene.shigeScript[scene.nextDialogIndex][0]);
-    scene.currText = scene.add.text(game.config.width / 3.5, game.config.height - 100, scene.shigeScript[scene.nextDialogIndex][1]).setOrigin(0, 0).setWordWrapWidth(game.config.width / 1.5);
-}
-
-function norikoDialog(scene) {
-    if (scene.talkedToNoriko) {
-        return;
-    }
-
-    // return if currently talking to the other characters
-    if (scene.currentlyTalkingToShige) {
-        return;
-    }
-
-    // if reached end of dialog, remove current character, text, and change booleans
-    if (scene.nextDialogIndex >= scene.norikoScript.length - 1) {
-        scene.currText.destroy();
-        scene.character.destroy();
-
-        // restart dialog for next character to talk to
-        scene.nextDialogIndex = -1;
-        scene.currentlyTalkingToNoriko = false;
-        scene.talkedToNoriko = true;
-        scene.dialog_box.setVisible(false);
-        return;
-    }
-
-    // remove current character and text
-    if (scene.character != null && scene.currText != null) {
-        scene.character.destroy();
-        scene.currText.destroy();
-    }
-
-    if (scene.nextDialogIndex == -1) {
-        scene.dialog_box.setVisible(true);
-
-        scene.currentlyTalkingToNoriko = true;
-    }
-
-    console.log('curr dialog index: ', scene.nextDialogIndex);
-    ++scene.nextDialogIndex;
-    console.log('next dialog index: ', scene.nextDialogIndex);
-
-    // display current character and text
-    scene.character = scene.add.image(game.config.width / 8, game.config.height - 75, scene.norikoScript[scene.nextDialogIndex][0]);
-    scene.currText = scene.add.text(game.config.width / 3.5, game.config.height - 100, scene.norikoScript[scene.nextDialogIndex][1]).setOrigin(0, 0).setWordWrapWidth(game.config.width / 1.5);
-}
-
-function koichiDialog(scene) {
-    if (scene.talkedToKoichi) {
-        return;
-    }
-
-    // if reached end of dialog, remove current character, text, sprite, and change booleans
-    if (scene.nextDialogIndex >= scene.koichiScript.length - 1) {
-        scene.currText.destroy();
-        scene.character.destroy();
-        scene.bigShip.destroy();
-        scene.bigShip = null;
-
-        // restart dialog for next character to talk to
-        scene.nextDialogIndex = -1;
-        scene.currentlyTalkingToKoichi = false;
-        scene.talkedToKoichi = true;
-        scene.dialog_box.setVisible(false);
-        return;
-    }
-
-    // remove current character and text
-    if (scene.character != null && scene.currText != null) {
-        scene.character.destroy();
-        scene.currText.destroy();
-    }
-
-    if (scene.nextDialogIndex == -1) {
-        scene.dialog_box.setVisible(true);
-
-        scene.currentlyTalkingToKoichi = true;
-    }
-
-    console.log('curr dialog index: ', scene.nextDialogIndex);
-    ++scene.nextDialogIndex;
-    console.log('next dialog index: ', scene.nextDialogIndex);
-
-    // display current character and text
-    scene.character = scene.add.image(game.config.width / 8, game.config.height - 75, scene.koichiScript[scene.nextDialogIndex][0]);
-    scene.currText = scene.add.text(game.config.width / 3.5, game.config.height - 100, scene.koichiScript[scene.nextDialogIndex][1]).setOrigin(0, 0).setWordWrapWidth(game.config.width / 1.5);
-}
-*/
