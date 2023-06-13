@@ -5,6 +5,7 @@ class Load extends Phaser.Scene {
 
     preload() {
         this.add.text(game.config.width / 2, game.config.height / 2.5, 'Loading...').setOrigin(0.5, 0.5);
+
         let loadingBar = this.add.graphics();
         this.load.on('progress', (value) => {
             loadingBar.clear();                                 // reset fill/line style
@@ -28,7 +29,6 @@ class Load extends Phaser.Scene {
         this.load.audio('tele_ring', ['audio/uk-old-104244.mp3']);
 
         // load images
-        // temp images
         this.load.image('Tomi', 'tomi_spr.png')
         this.load.image('Shukichi', 'shukichi_spr.png')
         this.load.image('ShukichiL', 'shukichi_spr_L.png')
@@ -44,6 +44,10 @@ class Load extends Phaser.Scene {
 
         // background images
         this.load.image('arrival_and_neglect_background', 'arrival_and_neglect_background.png')
+
+        // tilemap
+        this.load.image('s1Image', 'monoJPWallset.png')
+        this.load.tilemapTiledJSON('s1JSON', 'scene1.json')
 
         // dialog images
         this.load.image('dialog_box', 'dialog_box.png');
