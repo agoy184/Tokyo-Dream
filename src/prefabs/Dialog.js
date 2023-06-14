@@ -78,7 +78,6 @@ class Dialog {
         
         // display the dialog at the start
         if (this.currDialogIndex == 0) {
-            console.log(this.dialog.length);
             this.dialogBox.setVisible(true);
             this.currCharacter.setVisible(true);
             this.currText.setVisible(true);
@@ -86,26 +85,29 @@ class Dialog {
             this.setIsTalkingToMe(true);
         }
 
-        // display the dialog
-        if (this.currDialogIndex == 0 || Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
-            // play audio if given sound
-            if (this.dialog[this.currDialogIndex][0] == 'sound') {
-                this.sfx = this.scene.sound.add(this.dialog[this.currDialogIndex][1]);
-                this.sfx.play();
-   
-            // pause the dialog
-            } else if (this.dialog[this.currDialogIndex][0] == 'pause') {
-                this.scene.time.delayedCall(this.dialog[this.currDialogIndex][1], () => {})
-
-            // otherwise set the text and character
-            } else {
-                this.currCharacter.setTexture(this.dialog[this.currDialogIndex][0]);
-                this.currText.setText(this.dialog[this.currDialogIndex][1]);
-            }
+            // display the dialog
+            if (this.currDialogIndex == 0 || Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
+                // play audio if given sound
+                if (this.dialog[this.currDialogIndex][0] == 'sound') {
+                    this.sfx = this.scene.sound.add(this.dialog[this.currDialogIndex][1]);
+                    this.sfx.play();
+    
+                // pause the dialog
+                } else if (this.dialog[this.currDialogIndex][0] == 'pause') {
+                   this.scene.time.delayedCall(this.dialog[this.currDialogIndex][1], () => {});
+                // otherwise set the text and character
+                } else {
+                    this.currCharacter.setTexture(this.dialog[this.currDialogIndex][0]);
+                    this.currText.setText(this.dialog[this.currDialogIndex][1]);
+                }
     
             ++this.currDialogIndex;
          }
 
+    }
+
+    getCurrDialogIndex() {
+        return this.currDialogIndex;
     }
 
     // gets the current information if the dialog is finished
