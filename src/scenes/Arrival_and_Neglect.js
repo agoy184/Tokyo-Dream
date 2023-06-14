@@ -89,6 +89,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             ["Noriko_Dialog", "Well…"],
             ["Noriko_Dialog", "Oh right, I got the day off tomorrow if you two would like to go sightseeing tomorrow."],
             ["Shukichi_Dialog", "We would love to, I can’t wait for you to show us around Tokyo."],
+
         ];
 
         // dialog for Koichi
@@ -101,15 +102,16 @@ class Arrival_and_Neglect extends Phaser.Scene {
             ["Tomi_Dialog", "That’s true, we’re glad to know you’re doing great things in your community."],
             ["Koichi_Dialog", "I have some crackers for us to snack on before dinner, I got these from Yokohama."],
             ["sound", "open_container"],
-            ["pause", 3000],
+            ["pause", 1500],
             ["Tomi_Dialog", "Oh wow, these look delicious."],
             ["Shukichi_Dialog", "I can’t wait to eat them."],
             ["sound", 'tele_ring'],
             ["pause", 3500],
-            ["Koichi_Dialog", "Hello?...Yes that’s me…How’s their temperature?...I see, I’ll be right over."],
+            ["Koichi_Dialog", "Hello?...Yes that’s me...How’s their temperature?...I see, I’ll be right over."],
             ["Koichi_Dialog", "Sorry, I have to visit another patient, it will take a while. You two might sleep before I get home."],
             ["Shukichi_Dialog", "Ah, that’s okay."],
             ["Tomi_Dialog", "That’s okay, we’ll see you soon."],
+
         ];
 
         // characters for dialog
