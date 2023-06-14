@@ -31,8 +31,8 @@ class Funeral extends Phaser.Scene {
         this.grandpa = this.physics.add.sprite(150, 270, 'ShukichiSad', 0);
 
         this.shigeScript = [
-            ["Shige_Dialog_Sad", 0.5, "How could this have happened?}"],
-            ["Shige_Dialog_Sad", "She looked so healthy when she was visiting."],
+            ["Shige_Dialog_Sad", 0.5, "How could this have happened?"],
+            ["Shige_Dialog_Sad", "She looked so healthy in Tokyo."],
             ["Shukichi_Dialog_Sad", "I don’t know…"],
             ["Shukichi_Dialog_Sad", "Actually I remember she felt dizzy once when we were at Atami, but I didn’t think it was serious."],
             ["Shige_Dialog_Sad", "Why didn’t you tell us?! Koichi could’ve checked on her!"],
@@ -136,9 +136,9 @@ class Funeral extends Phaser.Scene {
                 
             this.stopPlayer(this.grandpa);
 
-        // check collision with Koichi
+        // check collision with Koichi, talk to him after talking to Shige
         } else if (this.checkCollision(this.grandpa, this.koichi)) {
-            if (!this.koichiDialog.getIsShowing() && !this.koichiDialog.getIsTalkingToSomeoneElse()) {
+            if (this.shigeDialog.getFinishedDialog() && !this.koichiDialog.getIsShowing() && !this.koichiDialog.getIsTalkingToSomeoneElse()) {
                 this.koichiDialog.setIsShowing(true);
                 this.koichiDialog.setIsTalkingToMe(true);
 
@@ -150,7 +150,7 @@ class Funeral extends Phaser.Scene {
 
             this.stopPlayer(this.grandpa);
 
-        // check collision with Noriko
+        // check collision with Keizo
         } else if (this.checkCollision(this.grandpa, this.keizo)) {
             if (!this.keizoDialog.getIsShowing() && !this.keizoDialog.getIsTalkingToSomeoneElse()) {
                 this.keizoDialog.setIsShowing(true);
@@ -164,6 +164,7 @@ class Funeral extends Phaser.Scene {
 
             this.stopPlayer(this.grandpa);
 
+        // check collision with Kyoko
         } else if (this.checkCollision(this.grandpa, this.kyoko)) {
             if (!this.kyokoDialog.getIsShowing() && !this.kyokoDialog.getIsTalkingToSomeoneElse()) {
                 this.kyokoDialog.setIsShowing(true);
@@ -177,15 +178,21 @@ class Funeral extends Phaser.Scene {
 
             this.stopPlayer(this.grandpa);
 
+        // check collision with Noriko, talk to her once talked to all other characters
         } else if (this.checkCollision(this.grandpa, this.noriko)) {
-            if (!this.norikoDialog.getIsShowing() && !this.norikoDialog.getIsTalkingToSomeoneElse()) {
-                this.norikoDialog.setIsShowing(true);
-                this.norikoDialog.setIsTalkingToMe(true);
+            if (this.shigeDialog.getFinishedDialog() &&
+                this.koichiDialog.getFinishedDialog() &&
+                this.keizoDialog.getFinishedDialog() &&
+                this.kyokoDialog.getFinishedDialog() && 
+                !this.norikoDialog.getIsShowing() &&
+                !this.norikoDialog.getIsTalkingToSomeoneElse()) {
+                    this.norikoDialog.setIsShowing(true);
+                    this.norikoDialog.setIsTalkingToMe(true);
 
-                this.shigeDialog.setIsTalkingToSomeoneElse(true);
-                this.koichiDialog.setIsTalkingToSomeoneElse(true);
-                this.keizoDialog.setIsTalkingToSomeoneElse(true);
-                this.kyokoDialog.setIsTalkingToSomeoneElse(true);
+                    this.shigeDialog.setIsTalkingToSomeoneElse(true);
+                    this.koichiDialog.setIsTalkingToSomeoneElse(true);
+                    this.keizoDialog.setIsTalkingToSomeoneElse(true);
+                    this.kyokoDialog.setIsTalkingToSomeoneElse(true);
              }
 
             this.stopPlayer(this.grandpa);
@@ -237,7 +244,7 @@ class Funeral extends Phaser.Scene {
             }
         }
 
-        // talk with Noriko when in collision
+        // talk with Keizo when in collision
         if (this.keizoDialog.getIsTalkingToMe()) {
             this.keizoDialog.update();
 
@@ -336,7 +343,7 @@ class Funeral extends Phaser.Scene {
             duration: 5000,
             onComplete: () => {
                 this.music.stop();
-                this.scene.start('menuScene')
+                this.scene.start('endingScene')
             }
         });
     }
