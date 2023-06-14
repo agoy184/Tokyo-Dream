@@ -36,7 +36,6 @@ class Dialog {
 
         // index to keep track of dialog location
         this.currDialogIndex = 0;
-        //this.currDialogIndex = -1;
 
         // setting the character iamge, text, and dialog box
         this.dialogBox = this.scene.add.image(this.dialogBoxX, this.dialogBoxY, 'dialog_box').setOrigin(0.5, 0.5).setVisible(false);
@@ -62,17 +61,15 @@ class Dialog {
 
         // remove all visuals and change conditionals once reached end of dialog
         // user must press space to end it
-        if (this.currDialogIndex == this.dialog.length) {
-            if (Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
-                // remove all dialog visuals
-                this.currCharacter.setVisible(false);
-                this.currText.setVisible(false);
-                this.dialogBox.setVisible(false);
+        if (this.currDialogIndex == this.dialog.length && Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
+            // remove all dialog visuals
+            this.currCharacter.setVisible(false);
+            this.currText.setVisible(false);
+            this.dialogBox.setVisible(false);
     
-                // change conditionals
-                this.setFinishedDialog(true);
-                this.setIsTalkingToMe(false);
-            }
+            // change conditionals
+            this.setFinishedDialog(true);
+            this.setIsTalkingToMe(false);
             return;
         }
         
@@ -95,9 +92,10 @@ class Dialog {
             // pause the dialog
             } else if (this.dialog[this.currDialogIndex][0] == 'pause') {
                this.scene.time.delayedCall(this.dialog[this.currDialogIndex][1], () => {});
+
             // otherwise set the text and character
             } else {
-                console.log(this.dialog[this.currDialogIndex].length);
+                // for bigger images, inner array will have a bigger length, so set the scaling of the character dialog image
                 if (this.dialog[this.currDialogIndex].length > 2) {
                     this.currCharacter.setTexture(this.dialog[this.currDialogIndex][0]).setScale(0.5);
                     this.currText.setText(this.dialog[this.currDialogIndex][2]);
@@ -112,6 +110,7 @@ class Dialog {
 
     }
 
+    // get current dialog index
     getCurrDialogIndex() {
         return this.currDialogIndex;
     }
@@ -126,26 +125,32 @@ class Dialog {
         this.finishedDialog = isFinished;
     }
 
+    // get info on if player is currently talking to this character
     getIsTalkingToMe() {
         return this.isTalkingToMe;
     }
 
+    // set conditional if player is talking to this character
     setIsTalkingToMe(myTurn) {
         this.isTalkingToMe = myTurn;
     }
 
+    // get info if player is talking to someone else
     getIsTalkingToSomeoneElse() {
         return this.isTalkingToSomeoneElse;
     }
 
+    // set conditional if player is talking to someone else
     setIsTalkingToSomeoneElse(notMyTurn) {
         this.isTalkingToSomeoneElse = notMyTurn;
     }
 
+    // get info if this character is showing dialog
     getIsShowing() {
         return this.show;
     }
 
+    // set if character is showing dialog
     setIsShowing(willShow) {
         this.show = willShow;
     }

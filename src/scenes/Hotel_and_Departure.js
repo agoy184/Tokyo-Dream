@@ -7,6 +7,7 @@ class Hotel_and_Departure extends Phaser.Scene {
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
 
+        // music
         let musicConfig = {
             volume: 0,
             loop: true,
@@ -55,6 +56,7 @@ class Hotel_and_Departure extends Phaser.Scene {
 
         // to give a "night feel"
         this.cameras.main.setAlpha(0.5);
+
         // fade scene in from black at start of scene
         this.cam = this.cameras.main.fadeIn(5000, 0, 0, 0);
 

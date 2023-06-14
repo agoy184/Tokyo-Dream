@@ -30,6 +30,7 @@ class Funeral extends Phaser.Scene {
 
         this.grandpa = this.physics.add.sprite(150, 270, 'ShukichiSad', 0);
 
+        // dialog for Shige
         this.shigeScript = [
             ["Shige_Dialog_Sad", 0.5, "How could this have happened?"],
             ["Shige_Dialog_Sad", "She looked so healthy in Tokyo."],
@@ -40,6 +41,7 @@ class Funeral extends Phaser.Scene {
             
         ];
 
+        // dialog for Koichi
         this.koichiScript = [
             ["Koichi_Dialog_Sad", 0.5, "It’s quite unfortunate this had to happen."],
             ["Shukichi_Dialog_Sad", "Yes, no one was expecting this."],
@@ -49,6 +51,7 @@ class Funeral extends Phaser.Scene {
             
         ];
 
+        // dialog for Kyoko
         this.kyokoScript = [
             ["Kyoko_Dialog_Sad", 0.5, "The trip might have been too much for her."],
             ["Shukichi_Dialog_Sad", "Possibly, unfortunately we don’t know the cause."],
@@ -58,6 +61,7 @@ class Funeral extends Phaser.Scene {
             
         ];
 
+        // dialog for Keizo
         this.keizoScript = [
             ["Keizo_Dialog_Sad", 0.5, "Sorry Father, I came too late."],
             ["Shukichi_Dialog_Sad", "That’s alright, you’re here now, that’s all that matters. I’m sure your mother appreciates it."],
@@ -65,6 +69,7 @@ class Funeral extends Phaser.Scene {
             
         ];
 
+        // dialoog for Noriko
         this.norikoScript = [
             ["Shukichi_Dialog_Sad", 0.5, "Thank you for coming back to our hometown to mourn her."],
             ["Noriko_Dialog_Sad", "It’s nothing, it’s the least I can do."],
@@ -274,7 +279,7 @@ class Funeral extends Phaser.Scene {
             }
         }
 
-        // go to next scene once talked to all other characters
+        // go to next scene once talked to all characters
         if (!this.end &&
             this.shigeDialog.getFinishedDialog() &&
             this.norikoDialog.getFinishedDialog() &&
@@ -287,6 +292,7 @@ class Funeral extends Phaser.Scene {
 
     }
 
+    // player movement
     movePlayer(character) {
         if (keyW.isDown && character.y >= 0) {
             character.y -= 5;
@@ -301,6 +307,7 @@ class Funeral extends Phaser.Scene {
         }
     }
 
+    // prevent player from going through other characters
     stopPlayer(grandpa) {
         if (keyW.isDown) {
                 grandpa.y += 5;
@@ -316,6 +323,7 @@ class Funeral extends Phaser.Scene {
         }
     }
 
+    // checking if colliding
     checkCollision(char1, char2) {
         // ignore if either sprites are gone from the scene
         if (char1 == null || char2 == null) {
@@ -332,6 +340,7 @@ class Funeral extends Phaser.Scene {
             }
     }
 
+    // End scene transition
     endScene() {
         this.input.keyboard.enabled = false;
     

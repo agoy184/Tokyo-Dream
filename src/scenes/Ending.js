@@ -4,7 +4,9 @@ class Ending extends Phaser.Scene {
     }
 
     create() {
+        // set background color to black
         this.cameras.main.setBackgroundColor('rgba(0, 0, 0, 1)');
+
         this.add.text(game.config.width / 2, game.config.height / 2, "“No one can serve his parents beyond the grave”").setOrigin(0.5, 0.5);;
 
         this.cam = this.cameras.main.fadeIn(2000, 0, 0, 0);

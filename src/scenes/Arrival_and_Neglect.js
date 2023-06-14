@@ -246,6 +246,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
 
     }
 
+    // player movement
     movePlayer(character) {
         if (keyW.isDown && character.y >= 0) {
             character.y -= 5;
@@ -260,6 +261,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
         }
     }
 
+    // stop player from going into the other characters
     stopPlayer(grandpa, grandma) {
         if (keyW.isDown) {
                 grandpa.y += 5;
@@ -279,6 +281,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
         }
     }
 
+    // check if colliding
     checkCollision(char1, char2) {
         // ignore if either sprites are gone from the scene
         if (char1 == null || char2 == null) {
