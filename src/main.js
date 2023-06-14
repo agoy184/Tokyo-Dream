@@ -27,14 +27,14 @@ let config = {
         }
       }
     },
-    scene:  [ Load, Menu, Arrival_and_Neglect, Hotel_and_Departure, Funeral, Credits ]
+    scene:  [ Load, Menu, Arrival_and_Neglect, Hotel_and_Departure, Funeral, Ending, Credits ]
 }
 
 let game = new Phaser.Game(config);
 
 // Reserve keyboard vars
 let keySPACE;
-let keyW, keyA, keyS, keyD, keyR, keyENTER
+let keyW, keyA, keyS, keyD, keyR
 
 // Set UI Sizes
 let borderUISize = game.config.height / 15;
