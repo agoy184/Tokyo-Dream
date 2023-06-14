@@ -1,9 +1,9 @@
 class Menu extends Phaser.Scene{
-    constructor(){
+    constructor() {
         super('menuScene');
     }
 
-    create(){
+    create() {
         let menuConfig = {
             fontFamily: 'Verdana',
             fontSize: '28px',
@@ -27,16 +27,17 @@ class Menu extends Phaser.Scene{
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     }
 
-    update(){
+    update() {
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             // Play mode
             this.sound.play('sfx_select');
             this.scene.start("arrivalAndNeglectScene");    
-          }
-          if (Phaser.Input.Keyboard.JustDown(keyD)) {
+        }
+
+        if (Phaser.Input.Keyboard.JustDown(keyD)) {
             // Credits mode
             this.sound.play('sfx_select');
             this.scene.start("creditsScene");    
-          }
+        }
     }
 }

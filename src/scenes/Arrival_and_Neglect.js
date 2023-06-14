@@ -52,8 +52,8 @@ class Arrival_and_Neglect extends Phaser.Scene {
         terrainLayer.setCollisionByProperty({collides: true});
        
         // collide player with walls
-       this.physics.add.collider(this.grandpa, terrainLayer);
-       this.physics.add.collider(this.grandma, terrainLayer);
+        this.physics.add.collider(this.grandpa, terrainLayer);
+        this.physics.add.collider(this.grandma, terrainLayer);
        
         // fade scene in from black at start of scene
         this.cam = this.cameras.main.fadeIn(5000, 0, 0, 0);
@@ -127,7 +127,8 @@ class Arrival_and_Neglect extends Phaser.Scene {
         this.shige = this.physics.add.sprite(game.config.width / 10, game.config.height / 1.85, 'Shige').setInteractive().setImmovable();
         this.koichi = this.physics.add.sprite(game.config.width / 2, game.config.height / 5, 'Koichi').setInteractive().setVisible(false).setImmovable();
         this.noriko = this.physics.add.sprite(game.config.width / 1.25, game.config.height / 1.75, 'Noriko').setInteractive().setImmovable();
-  
+ 
+        // set colliders
         this.shige.body.onCollide = true;
         this.koichi.body.onCollide = true;
         this.noriko.body.onCollide = true;
@@ -275,6 +276,8 @@ class Arrival_and_Neglect extends Phaser.Scene {
 
     // End scene transitions
     endScene() {
+        this.grandpa.body.reset(this.grandpa.x, this.grandpa.y);
+        this.grandma.body.reset(this.grandma.x, this.grandma.y);
         this.input.keyboard.enabled = false;
     
         this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);

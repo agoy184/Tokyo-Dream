@@ -55,6 +55,7 @@ class Hotel_and_Departure extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         // to give a "night feel"
+        this.cameras.main.setBackgroundColor('rgba(0, 0, 0, 1)');
         this.cameras.main.setAlpha(0.5);
 
         // fade scene in from black at start of scene
