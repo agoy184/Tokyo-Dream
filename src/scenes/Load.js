@@ -16,7 +16,7 @@ class Load extends Phaser.Scene {
             loadingBar.destroy();
         });
 
-        this.load.path = 'assets/';
+        this.load.path = './assets/';
 
         // background audio
         this.load.audio('scene_1_background_music', 'audio/Greener_Pastures-Darren_Curtis.mp3');

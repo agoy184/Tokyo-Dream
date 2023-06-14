@@ -15,7 +15,9 @@ let config = {
     width: 640,
     height: 480,
     backgroundColor: '#35A7FF',
-    pixelArt: true,
+    render: {
+      pixelArt: true,
+    },
     autoCenter: true,
     physics: {
       default: 'arcade',
