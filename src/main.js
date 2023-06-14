@@ -29,7 +29,7 @@ let config = {
         }
       }
     },
-    scene:  [ Load, Menu, Arrival_and_Neglect, Hotel_and_Departure, Funeral, Ending, Credits ]
+    scene:  [ Load, Menu, Arrival_and_Neglect, Hotel_and_Departure, Funeral, Ending, Credits, Controls ]
 }
 
 let game = new Phaser.Game(config);
