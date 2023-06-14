@@ -85,24 +85,30 @@ class Dialog {
             this.setIsTalkingToMe(true);
         }
 
-            // display the dialog
-            if (this.currDialogIndex == 0 || Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
-                // play audio if given sound
-                if (this.dialog[this.currDialogIndex][0] == 'sound') {
-                    this.sfx = this.scene.sound.add(this.dialog[this.currDialogIndex][1]);
-                    this.sfx.play();
-    
-                // pause the dialog
-                } else if (this.dialog[this.currDialogIndex][0] == 'pause') {
-                   this.scene.time.delayedCall(this.dialog[this.currDialogIndex][1], () => {});
-                // otherwise set the text and character
+        // display the dialog
+        if (this.currDialogIndex == 0 || Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
+            // play audio if given sound
+            if (this.dialog[this.currDialogIndex][0] == 'sound') {
+                this.sfx = this.scene.sound.add(this.dialog[this.currDialogIndex][1]);
+                this.sfx.play();
+
+            // pause the dialog
+            } else if (this.dialog[this.currDialogIndex][0] == 'pause') {
+               this.scene.time.delayedCall(this.dialog[this.currDialogIndex][1], () => {});
+            // otherwise set the text and character
+            } else {
+                console.log(this.dialog[this.currDialogIndex].length);
+                if (this.dialog[this.currDialogIndex].length > 2) {
+                    this.currCharacter.setTexture(this.dialog[this.currDialogIndex][0]).setScale(0.5);
+                    this.currText.setText(this.dialog[this.currDialogIndex][2]);
                 } else {
                     this.currCharacter.setTexture(this.dialog[this.currDialogIndex][0]);
                     this.currText.setText(this.dialog[this.currDialogIndex][1]);
                 }
-    
+            }
+
             ++this.currDialogIndex;
-         }
+        }
 
     }
 

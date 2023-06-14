@@ -66,8 +66,8 @@ class Load extends Phaser.Scene {
         this.load.image('Noriko_Dialog_Sad', 'noriko_cu_sad.png');
         this.load.image('Koichi_Dialog', 'koichi_cu.png');
         this.load.image('Koichi_Dialog_Sad', 'koichi_cu_sad.png');
-        this.load.image('Kyoko_Dialog', 'kyoko_cu.png');
-        this.load.image('Keizo_Dialog', 'keizo_cu.png');
+        this.load.image('Kyoko_Dialog_Sad', 'kyoko_cu.png');
+        this.load.image('Keizo_Dialog_Sad', 'keizo_cu.png');
     }
 
     create() {
