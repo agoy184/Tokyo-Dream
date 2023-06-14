@@ -31,12 +31,18 @@ class Load extends Phaser.Scene {
         // load images
         this.load.image('Tomi', 'tomi_spr.png')
         this.load.image('Shukichi', 'shukichi_spr.png')
+        this.load.image('ShukichiSad', 'shukichi_spr_sad.png')
         this.load.image('ShukichiL', 'shukichi_spr_L.png')
         this.load.image('ShukichiR', 'shukichi_spr_R.png')
         this.load.image('ShukichiB', 'shukichi_spr_B.png')
         this.load.image('Shige', 'shige_spr.png')
+        this.load.image('ShigeSad', 'shige_spr_sad.png')
         this.load.image('Koichi', 'koichi_spr.png')
+        this.load.image('KoichiSad', 'koichi_spr_sad.png')
         this.load.image('Noriko', 'noriko_spr.png')
+        this.load.image('NorikoSad', 'noriko_spr_sad.png')
+        this.load.image('Kyoko', 'kyoko_spr.png')
+        this.load.image('Keizo', 'keizo_spr.png')
         this.load.image('Person', 'old_sprites/EmptyChibi.png')
         this.load.image('ship', 'old_sprites/smallship.png');
         this.load.image('bigShip', 'old_sprites/spaceship.png');
@@ -52,10 +58,16 @@ class Load extends Phaser.Scene {
         // dialog images
         this.load.image('dialog_box', 'dialog_box.png');
         this.load.image('Shukichi_Dialog', 'shukichi_cu.png');
+        this.load.image('Shukichi_Dialog_Sad', 'shukichi_cu_sad.png');
         this.load.image('Tomi_Dialog', 'tomi_cu.png');
         this.load.image('Shige_Dialog', 'shige_cu.png');
+        this.load.image('Shige_Dialog_Sad', 'shige_cu_sad.png');
         this.load.image('Noriko_Dialog', 'noriko_cu.png');
+        this.load.image('Noriko_Dialog_Sad', 'noriko_cu_sad.png');
         this.load.image('Koichi_Dialog', 'koichi_cu.png');
+        this.load.image('Koichi_Dialog_Sad', 'koichi_cu_sad.png');
+        this.load.image('Kyoko_Dialog', 'kyoko_cu.png');
+        this.load.image('Keizo_Dialog', 'keizo_cu.png');
     }
 
     create() {
