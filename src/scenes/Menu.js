@@ -30,10 +30,11 @@ class Menu extends Phaser.Scene{
         }
  
         // menu text
-        this.add.text(game.config.width/2, game.config.height/6, 'Tokyo Dream', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/6, 'Tokyo Story', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, game.config.height/2, 'Press SPACE to start', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/5, game.config.height/1.15, 'Press D for credits', smallConfig).setOrigin(0.5);
         this.add.text(game.config.width/1.25, game.config.height/1.15, 'Press A for controls', smallConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/1.05, 'By Abel Goy and Marlene Inoue', smallConfig).setOrigin(0.5);
 
         keySPACE = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
