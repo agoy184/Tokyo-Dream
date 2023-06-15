@@ -1,6 +1,11 @@
 class Arrival_and_Neglect extends Phaser.Scene {
     constructor() {
         super('arrivalAndNeglectScene');
+
+        this.tomiSpeed = 80;
+        this.tomiMaxTime = 1000;
+        this.hitboxSpeed = 100;
+        this.hitboxMaxTime = 250;
     }
 
     create() {
@@ -38,14 +43,23 @@ class Arrival_and_Neglect extends Phaser.Scene {
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-        this.grandpa = new Player(this, game.config.width / 2, game.config.height / 6, 'Shukichi', 0);
-        this.grandma = new Player(this, game.config.width / 1.75, game.config.height / 6, 'Tomi', 0);
+        // to create a hitbox that Tomi can follow, creates a hit box that is on the bottom half of Shukichi
+        this.grandpaInvis = new Player(this, game.config.width / 2, game.config.height / 6, 'Shukichi', 0).setVisible(false).setOrigin(0.5, 0);
+        this.grandpaInvis.body.setCollideWorldBounds(true);
+        this.grandpaInvis.setSize(this.grandpaInvis.width, this.grandpaInvis.height / 2);
+        this.grandpaInvis.body.onOverlap = true;
+        this.grandpaInvis.body.onCollide = true;
 
+        // Shuukichi, player controlling
+        this.grandpa = new Player(this, game.config.width / 2, game.config.height / 6, 'Shukichi', 0);
         this.grandpa.body.setCollideWorldBounds(true);
-        this.grandma.body.setCollideWorldBounds(true);
         this.grandpa.body.onOverlap = true;
-        this.grandma.body.onOverlap = true;
         this.grandpa.body.onCollide = true;
+
+        // Tomi, follows player
+        this.grandma = this.physics.add.sprite(game.config.width / 1.75, game.config.height / 6, 'Tomi', 0);
+        this.grandma.body.setCollideWorldBounds(true);
+        this.grandma.body.onOverlap = true;
         this.grandma.body.onCollide = true;
 
         // check overlap with Shukichi and Tomi
@@ -189,9 +203,20 @@ class Arrival_and_Neglect extends Phaser.Scene {
         // Shukichi moves
         this.grandpa.update();
 
+        this.distance = Phaser.Math.Distance.BetweenPoints(this.grandpaInvis, this.grandpa);
+
         // Tomi moves if not overlapping with Shuukichi
-        if (!this.physics.overlap(this.grandpa, this.grandma)) {
-            this.grandma.update();
+        if (!this.physics.overlap(this.grandpaInvis, this.grandma)) {
+            this.physics.moveToObject(this.grandma, this.grandpaInvis, this.tomiSpeed, this.tomiMaxTime);
+        } else {
+            this.grandma.body.reset(this.grandma.x, this.grandma.y);
+        }
+
+        // lower body hit box, moves with Shukichi at relative speed
+        if (this.distance < 1) {
+            this.grandpaInvis.body.reset(this.grandpaInvis.x, this.grandpaInvis.y);
+        } else {
+            this.physics.moveToObject(this.grandpaInvis, this.grandpa, this.hitboxSpeed, this.hitboxMaxTime);
         }
 
         // collide with Shige if in scene
