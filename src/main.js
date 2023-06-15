@@ -3,7 +3,7 @@
 
 /**
  * Phaser Components Used
- * physics: player sprite
+ * physics: player and other sprites
  * cameras: fading in and out between sceens
  * text objects: menu text, dialog text
  * tween manager: tweening the music
@@ -15,14 +15,11 @@ let config = {
     width: 640,
     height: 480,
     backgroundColor: '#35A7FF',
-    render: {
-      pixelArt: true,
-    },
+    pixelArt: true,
     autoCenter: true,
     physics: {
       default: 'arcade',
       arcade: {
-        debug: true,
         gravity: {
           x:0,
           y:0

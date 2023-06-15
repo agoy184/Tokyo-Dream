@@ -27,7 +27,7 @@ class Funeral extends Phaser.Scene {
         // fade music in at start of scene
         this.tween = this.tweens.add({
             targets: this.music,
-            volume: {from: 0, to: 1},
+            volume: {from: 0, to: 0.8},
             duration: 3000,
         });
 
@@ -49,7 +49,7 @@ class Funeral extends Phaser.Scene {
 
         // dialog for Shige
         this.shigeScript = [
-            ["Shige_Dialog_Sad", 0.5, "How could this have happened?"],
+            ["Shige_Dialog_Sad", "How could this have happened?"],
             ["Shige_Dialog_Sad", "She looked so healthy in Tokyo."],
             ["Shukichi_Dialog_Sad", "I don’t know…"],
             ["Shukichi_Dialog_Sad", "Actually I remember she felt dizzy once when we were at Atami, but I didn’t think it was serious."],
@@ -60,7 +60,7 @@ class Funeral extends Phaser.Scene {
 
         // dialog for Koichi
         this.koichiScript = [
-            ["Koichi_Dialog_Sad", 0.5, "It’s quite unfortunate this had to happen."],
+            ["Koichi_Dialog_Sad", "It’s quite unfortunate this had to happen."],
             ["Shukichi_Dialog_Sad", "Yes, no one was expecting this."],
             ["Koichi_Dialog_Sad", "Shige told me mother was dizzy at Atami, but I don’t think that was the cause of her death."],
             ["Shukichi_Dialog_Sad", "Ah really? Well that puts me a little bit more at ease."],
@@ -70,7 +70,7 @@ class Funeral extends Phaser.Scene {
 
         // dialog for Kyoko
         this.kyokoScript = [
-            ["Kyoko_Dialog_Sad", 0.5, "The trip might have been too much for her."],
+            ["Kyoko_Dialog_Sad", "The trip might have been too much for her."],
             ["Shukichi_Dialog_Sad", "Possibly, unfortunately we don’t know the cause."],
             ["Kyoko_Dialog_Sad", "I should’ve convinced Mother to stay at home. Koichi, Shige, and Keizo should’ve taken time off to visit."],
             ["Shukichi_Dialog_Sad", "But Kyoko, they’re busy with their own lives…"],
@@ -80,7 +80,7 @@ class Funeral extends Phaser.Scene {
 
         // dialog for Keizo
         this.keizoScript = [
-            ["Keizo_Dialog_Sad", 0.5, "Sorry Father, I came too late."],
+            ["Keizo_Dialog_Sad", "Sorry Father, I came too late."],
             ["Shukichi_Dialog_Sad", "That’s alright, you’re here now, that’s all that matters. I’m sure your mother appreciates it."],
             ["Keizo_Dialog_Sad", "I wasn’t a very good son. I can’t lose her now."],
             
@@ -88,7 +88,7 @@ class Funeral extends Phaser.Scene {
 
         // dialoog for Noriko
         this.norikoScript = [
-            ["Shukichi_Dialog_Sad", 0.5, "Thank you for coming back to our hometown to mourn her."],
+            ["Shukichi_Dialog_Sad", "Thank you for coming back to our hometown to mourn her."],
             ["Noriko_Dialog_Sad", "It’s nothing, it’s the least I can do."],
             ["Shukichi_Dialog_Sad", "Mother told me that she’s very happy to have spent time with you. It was her most favorite time visiting Tokyo."],
             ["pause", 2000],

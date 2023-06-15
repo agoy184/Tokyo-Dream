@@ -33,7 +33,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
         // fade music in at start of scene
         this.tween = this.tweens.add({
             targets: this.music,
-            volume: {from: 0, to: 1},
+            volume: {from: 0, to: 0.8},
             duration: 3000,
         });
 
@@ -155,7 +155,6 @@ class Arrival_and_Neglect extends Phaser.Scene {
             this.norikoDialog.setIsTalkingToSomeoneElse(true);
             this.koichiDialog.setIsTalkingToSomeoneElse(true);
 
-            console.log(this.shigeDialog.getFinishedDialog());
         }, () => {
             return this.shige.visible && !this.shigeDialog.getIsShowing() && !this.shigeDialog.getIsTalkingToSomeoneElse();
         });

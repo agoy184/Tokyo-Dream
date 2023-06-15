@@ -95,14 +95,8 @@ class Dialog {
 
             // otherwise set the text and character
             } else {
-                // for bigger images, inner array will have a bigger length, so set the scaling of the character dialog image
-                if (this.dialog[this.currDialogIndex].length > 2) {
-                    this.currCharacter.setTexture(this.dialog[this.currDialogIndex][0]).setScale(0.5);
-                    this.currText.setText(this.dialog[this.currDialogIndex][2]);
-                } else {
-                    this.currCharacter.setTexture(this.dialog[this.currDialogIndex][0]);
-                    this.currText.setText(this.dialog[this.currDialogIndex][1]);
-                }
+               this.currCharacter.setTexture(this.dialog[this.currDialogIndex][0]);
+               this.currText.setText(this.dialog[this.currDialogIndex][1]);
             }
 
             ++this.currDialogIndex;
