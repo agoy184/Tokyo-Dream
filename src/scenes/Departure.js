@@ -8,7 +8,7 @@ class Departure extends Phaser.Scene {
         const map = this.add.tilemap('s2OceanJSON');
         const mapGround = this.add.tilemap('s2GroundJSON');
         const wallset = mapGround.addTilesetImage('monoJPWallset', 'wallset');
-        const oceanset = map.addTilesetImage('monoBeach', 'ocean');
+        const oceanset = map.addTilesetImage('monoBasicBeach', 'ocean');
 
         const oceanLayer = map.createLayer('ocean', oceanset, 0, 0);
         const groundLayer = mapGround.createLayer('ground', wallset, 0, 0);
