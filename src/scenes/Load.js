@@ -47,8 +47,8 @@ class Load extends Phaser.Scene {
         this.load.image('Keizo', 'sprites/keizo_spr.png')
 
         // tilemap
-        this.load.image('wallset', 'monoJPWallset.png')
-        this.load.image('ocean', 'monoBasicBeach.png')
+        this.load.image('wallset', 'tilesets/monoJPWallset.png')
+        this.load.image('ocean', 'tilesets/monoBasicBeach.png')
         // scene 1
         this.load.tilemapTiledJSON('s1JSON', 'scene1_tilemap/scene1.json')
         // scene 2
