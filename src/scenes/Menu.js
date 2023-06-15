@@ -50,7 +50,7 @@ class Menu extends Phaser.Scene{
         if (Phaser.Input.Keyboard.JustDown(keyD)) {
             // Credits mode
             this.sound.play('sfx_select');
-            this.scene.start("creditsScene");    
+            this.scene.start("creditsMusicScene");    
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyA)) {

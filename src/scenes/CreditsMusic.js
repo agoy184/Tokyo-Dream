@@ -1,6 +1,6 @@
-class Credits extends Phaser.Scene {
+class CreditsMusic extends Phaser.Scene {
     constructor() {
-        super('creditsScene');
+        super('creditsMusicScene');
     }
 
     create() {
@@ -31,7 +31,7 @@ class Credits extends Phaser.Scene {
         }
 
         // menu text
-        this.add.text(game.config.width/2, game.config.height/9, 'Credits', menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/9, 'Music Credits', menuConfig).setOrigin(0.5);
         this.add.text(game.config.width/2, 2*game.config.height/9, 'Film game is based on: Tokyo Story (1953)', smallConfig).setOrigin(0.5);
 
         // music credits
@@ -39,14 +39,21 @@ class Credits extends Phaser.Scene {
         this.add.text(game.config.width/1.35, game.config.height/2.5, 'Second Scene Music\nSakuya2 by PeriTune | http://peritune.com\nCreative Commons Attribution 3.0 Unported License\nhttps://creativecommons.org/licenses/by/3.0/deed.en_US\nMusic promoted by https://www.chosic.com/free-music/all/', smallConfig).setWordWrapWidth(game.config.width / 2.5).setAlign('center').setFontSize(10).setOrigin(0.5);
         this.add.text(game.config.width/4, game.config.height/1.5, 'Third Scene Music\nRain On The Window by Alex-Productions | https://onsound.eu/\nMusic promoted by https://www.free-stock-music.com\nCreative Commons / Attribution 3.0 Unported License (CC BY 3.0)\nhttps://creativecommons.org/licenses/by/3.0/deed.en_US', smallConfig).setWordWrapWidth(game.config.width / 2.5).setAlign('center').setFontSize(10).setOrigin(0.5);
 
-        this.add.text(game.config.width/2, 8*game.config.height/9, 'Press R to return to the title screen menu', smallConfig).setOrigin(0.5);
+        // instructions
+        this.add.text(game.config.width/1.35, 8*game.config.height/9, 'Press R to return to the title screen menu', smallConfig).setOrigin(0.5).setFontSize(12);
+        this.add.text(game.config.width/4, 8*game.config.height/9, 'Press D to view tileset credits', smallConfig).setOrigin(0.5).setFontSize(12);
 
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
     }
 
     update() {
+        if (Phaser.Input.Keyboard.JustDown(keyD)) {
+            this.scene.start("creditsBackgroundScene");    
+        }
+
         if (Phaser.Input.Keyboard.JustDown(keyR)) {
-            this.scene.start("menuScene");    
+           this.scene.start("menuScene");    
         }
     }
 

@@ -39,7 +39,7 @@ class Funeral extends Phaser.Scene {
 
         //this.grandpa = this.physics.add.sprite(150, 270, 'ShukichiSad', 0);
         this.grandpa = new Player(this, 150, 270, 'ShukichiSad', 0);
-        this.grandma = this.physics.add.sprite(game.config.width / 1.5, game.config.height / 1.5, 'TomiDead', 0).setImmovable();
+        this.grandma = this.physics.add.sprite(game.config.width / 2, game.config.height / 1.5, 'TomiDead', 0).setImmovable();
 
         this.grandpa.body.setCollideWorldBounds(true);
         this.grandpa.body.onCollide = true;
@@ -106,6 +106,13 @@ class Funeral extends Phaser.Scene {
             ["Shukichi_Dialog_Sad", "It’s strange. We have children of our own, yet you’ve done the most for us, and you’re not even a blood relative. Thank you."],
         ];
 
+        // characters
+        this.shige = this.physics.add.sprite(game.config.width / 10, game.config.height / 4, 'ShigeSad').setOrigin(0.5, 0.5).setInteractive().setImmovable();
+        this.koichi = this.physics.add.sprite(game.config.width / 1.15, game.config.height / 4.5, 'KoichiSad').setOrigin(0.5, 0.5).setInteractive().setImmovable();
+        this.noriko = this.physics.add.sprite(game.config.width / 1.5, game.config.height / 1.75, 'NorikoSad').setOrigin(0.5, 0.5).setInteractive().setImmovable();
+        this.keizo = this.physics.add.sprite(game.config.width / 2, game.config.height / 5, 'Keizo').setOrigin(0.5, 0.5).setInteractive().setImmovable();
+        this.kyoko = this.physics.add.sprite(game.config.width / 6, game.config.height / 1.65, 'Kyoko').setOrigin(0.5, 0.5).setInteractive().setImmovable();
+    
         // dialog once player collides with one of the characters
         this.shigeDialog = new Dialog(this, this.shigeScript, false, false, false);
         this.norikoDialog = new Dialog(this, this.norikoScript, false, false, false);
@@ -113,13 +120,6 @@ class Funeral extends Phaser.Scene {
         this.keizoDialog = new Dialog(this, this.keizoScript, false, false, false);
         this.kyokoDialog = new Dialog(this, this.kyokoScript, false, false, false);
 
-        // characters
-        this.shige = this.physics.add.sprite(game.config.width / 10, game.config.height / 5, 'ShigeSad').setOrigin(0.5, 0.5).setInteractive().setImmovable();
-        this.koichi = this.physics.add.sprite(game.config.width / 2, game.config.height / 5, 'KoichiSad').setOrigin(0.5, 0.5).setInteractive().setImmovable();
-        this.noriko = this.physics.add.sprite(game.config.width / 1.25, game.config.height / 1.75, 'NorikoSad').setOrigin(0.5, 0.5).setInteractive().setImmovable();
-        this.keizo = this.physics.add.sprite(game.config.width / 3, game.config.height / 2, 'Keizo').setOrigin(0.5, 0.5).setInteractive().setImmovable();
-        this.kyoko = this.physics.add.sprite(game.config.width / 4, game.config.height / 7, 'Kyoko').setOrigin(0.5, 0.5).setInteractive().setImmovable();
-    
         // set colliders
         this.shige.body.onCollide = true;
         this.koichi.body.onCollide = true;

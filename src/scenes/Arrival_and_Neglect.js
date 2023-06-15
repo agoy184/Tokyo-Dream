@@ -118,16 +118,16 @@ class Arrival_and_Neglect extends Phaser.Scene {
 
         ];
 
-        // dialog once player collides with one of the characters
-        this.shigeDialog = new Dialog(this, this.shigeScript, false, false, false);
-        this.norikoDialog = new Dialog(this, this.norikoScript, false, false, false);
-        this.koichiDialog = new Dialog(this, this.koichiScript, false, false, false);
-
         // characters for dialog
         this.shige = this.physics.add.sprite(game.config.width / 10, game.config.height / 1.85, 'Shige').setInteractive().setImmovable();
         this.koichi = this.physics.add.sprite(game.config.width / 2, game.config.height / 5, 'Koichi').setInteractive().setVisible(false).setImmovable();
         this.noriko = this.physics.add.sprite(game.config.width / 1.25, game.config.height / 1.75, 'Noriko').setInteractive().setImmovable();
  
+        // dialog once player collides with one of the characters
+        this.shigeDialog = new Dialog(this, this.shigeScript, false, false, false);
+        this.norikoDialog = new Dialog(this, this.norikoScript, false, false, false);
+        this.koichiDialog = new Dialog(this, this.koichiScript, false, false, false);
+
         // set colliders
         this.shige.body.onCollide = true;
         this.koichi.body.onCollide = true;
