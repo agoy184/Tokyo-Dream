@@ -10,6 +10,9 @@ class Funeral extends Phaser.Scene {
         const bgLayer = map.createLayer('background', tileset, 0, 0);
         const walls = map.createLayer('walls', tileset, 0, 0);
 
+        // enable collision
+        walls.setCollisionByProperty({collides: true});
+
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
 
@@ -40,6 +43,7 @@ class Funeral extends Phaser.Scene {
 
         this.grandpa.body.setCollideWorldBounds(true);
         this.grandpa.body.onCollide = true;
+        this.physics.add.collider(this.grandpa, walls);
 
         this.grandma.body.onCollide = true;
 

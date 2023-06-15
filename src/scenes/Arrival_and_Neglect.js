@@ -11,6 +11,9 @@ class Arrival_and_Neglect extends Phaser.Scene {
         const bgLayer = map.createLayer('MonoBackground', tileset, 0, 0);
         const terrainLayer = map.createLayer('MonoTerrain', tileset, 0, 0);
 
+        // enable collision
+        terrainLayer.setCollisionByProperty({collides: true});
+ 
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
 
@@ -48,9 +51,6 @@ class Arrival_and_Neglect extends Phaser.Scene {
         // check overlap with Shukichi and Tomi
         this.physics.add.overlap(this.grandpa, this.grandma);
  
-        // enable collision
-        terrainLayer.setCollisionByProperty({collides: true});
-       
         // collide player with walls
         this.physics.add.collider(this.grandpa, terrainLayer);
         this.physics.add.collider(this.grandma, terrainLayer);
