@@ -7,7 +7,7 @@ class CreditsMusic extends Phaser.Scene {
         let menuConfig = {
             fontFamily: 'Verdana',
             fontSize: '28px',
-            backgroundColor: '#F41D1D',
+            backgroundColor: '#303030',
             color: '#FFFFFF',
             align: 'right',
             padding: {
@@ -20,7 +20,7 @@ class CreditsMusic extends Phaser.Scene {
         let smallConfig = {
             fontFamily: 'Verdana',
             fontSize: '17px',
-            backgroundColor: '#F41D1D',
+            backgroundColor: '#303030',
             color: '#FFFFFF',
             align: 'left',
             padding: {
