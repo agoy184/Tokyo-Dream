@@ -1,16 +1,24 @@
 class Arrival_and_Neglect extends Phaser.Scene {
     constructor() {
         super('arrivalAndNeglectScene');
+
+        this.tomiSpeed = 80;
+        this.tomiMaxTime = 1000;
+        this.hitboxSpeed = 100;
+        this.hitboxMaxTime = 250;
     }
 
     create() {
         // tilemap stuff
         const map = this.add.tilemap('s1JSON');
-        const tileset = map.addTilesetImage('monoJPWallset', 's1Image');
+        const tileset = map.addTilesetImage('monoJPWallset', 'wallset');
 
         const bgLayer = map.createLayer('MonoBackground', tileset, 0, 0);
         const terrainLayer = map.createLayer('MonoTerrain', tileset, 0, 0);
 
+        // enable collision
+        terrainLayer.setCollisionByProperty({collides: true});
+ 
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
 
@@ -26,7 +34,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
         this.tween = this.tweens.add({
             targets: this.music,
             volume: {from: 0, to: 1},
-            duration: 5000,
+            duration: 3000,
         });
 
         // Define keys
@@ -35,28 +43,34 @@ class Arrival_and_Neglect extends Phaser.Scene {
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-        this.grandpa = new Player(this, game.config.width / 2, game.config.height / 6, 'Shukichi', 0);
-        this.grandma = new Player(this, game.config.width / 1.75, game.config.height / 6, 'Tomi', 0);
+        // to create a hitbox that Tomi can follow, creates a hit box that is on the bottom half of Shukichi
+        this.grandpaInvis = new Player(this, game.config.width / 2, game.config.height / 6, 'Shukichi', 0).setVisible(false).setOrigin(0.5, 0);
+        this.grandpaInvis.body.setCollideWorldBounds(true);
+        this.grandpaInvis.setSize(this.grandpaInvis.width, this.grandpaInvis.height / 2);
+        this.grandpaInvis.body.onOverlap = true;
+        this.grandpaInvis.body.onCollide = true;
 
+        // Shuukichi, player controlling
+        this.grandpa = new Player(this, game.config.width / 2, game.config.height / 6, 'Shukichi', 0);
         this.grandpa.body.setCollideWorldBounds(true);
-        this.grandma.body.setCollideWorldBounds(true);
         this.grandpa.body.onOverlap = true;
-        this.grandma.body.onOverlap = true;
         this.grandpa.body.onCollide = true;
+
+        // Tomi, follows player
+        this.grandma = this.physics.add.sprite(game.config.width / 1.75, game.config.height / 6, 'Tomi', 0);
+        this.grandma.body.setCollideWorldBounds(true);
+        this.grandma.body.onOverlap = true;
         this.grandma.body.onCollide = true;
 
         // check overlap with Shukichi and Tomi
         this.physics.add.overlap(this.grandpa, this.grandma);
  
-        // enable collision
-        terrainLayer.setCollisionByProperty({collides: true});
-       
         // collide player with walls
         this.physics.add.collider(this.grandpa, terrainLayer);
         this.physics.add.collider(this.grandma, terrainLayer);
        
         // fade scene in from black at start of scene
-        this.cam = this.cameras.main.fadeIn(5000, 0, 0, 0);
+        this.cam = this.cameras.main.fadeIn(3000, 0, 0, 0);
 
         // enable player input after camera finished fading in
         this.cam.on('camerafadeincomplete', function() {
@@ -81,7 +95,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
 
         // dialog for Noriko
         this.norikoScript = [
-            ["Noriko_Dialog", "Welcome to Tokyo mom and dad, it’s good to see you two again."],
+            ["Noriko_Dialog", "Welcome to Tokyo mother and father, it’s good to see you two again."],
             ["Tomi_Dialog", "It’s been quite a long time."],
             ["Shukichi_Dialog", "It’s good to see you again too. Have you been keeping busy at work?"],
             ["Noriko_Dialog", "Yes. We were quite busy a few months ago, but we’re not so busy now."],
@@ -118,16 +132,16 @@ class Arrival_and_Neglect extends Phaser.Scene {
 
         ];
 
-        // dialog once player collides with one of the characters
-        this.shigeDialog = new Dialog(this, this.shigeScript, false, false, false);
-        this.norikoDialog = new Dialog(this, this.norikoScript, false, false, false);
-        this.koichiDialog = new Dialog(this, this.koichiScript, false, false, false);
-
         // characters for dialog
         this.shige = this.physics.add.sprite(game.config.width / 10, game.config.height / 1.85, 'Shige').setInteractive().setImmovable();
         this.koichi = this.physics.add.sprite(game.config.width / 2, game.config.height / 5, 'Koichi').setInteractive().setVisible(false).setImmovable();
         this.noriko = this.physics.add.sprite(game.config.width / 1.25, game.config.height / 1.75, 'Noriko').setInteractive().setImmovable();
  
+        // dialog once player collides with one of the characters
+        this.shigeDialog = new Dialog(this, this.shigeScript, false, false, false);
+        this.norikoDialog = new Dialog(this, this.norikoScript, false, false, false);
+        this.koichiDialog = new Dialog(this, this.koichiScript, false, false, false);
+
         // set colliders
         this.shige.body.onCollide = true;
         this.koichi.body.onCollide = true;
@@ -189,9 +203,20 @@ class Arrival_and_Neglect extends Phaser.Scene {
         // Shukichi moves
         this.grandpa.update();
 
+        this.distance = Phaser.Math.Distance.BetweenPoints(this.grandpaInvis, this.grandpa);
+
         // Tomi moves if not overlapping with Shuukichi
-        if (!this.physics.overlap(this.grandpa, this.grandma)) {
-            this.grandma.update();
+        if (!this.physics.overlap(this.grandpaInvis, this.grandma)) {
+            this.physics.moveToObject(this.grandma, this.grandpaInvis, this.tomiSpeed, this.tomiMaxTime);
+        } else {
+            this.grandma.body.reset(this.grandma.x, this.grandma.y);
+        }
+
+        // lower body hit box, moves with Shukichi at relative speed
+        if (this.distance < 1) {
+            this.grandpaInvis.body.reset(this.grandpaInvis.x, this.grandpaInvis.y);
+        } else {
+            this.physics.moveToObject(this.grandpaInvis, this.grandpa, this.hitboxSpeed, this.hitboxMaxTime);
         }
 
         // collide with Shige if in scene
@@ -234,7 +259,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             this.shige.setVisible(false);
         }
 
-        // talk with Koichi when in collision
+        // talk with Koichi when collided
         if (this.koichiDialog.getIsTalkingToMe()) {
             this.koichiDialog.update();
 
@@ -252,7 +277,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             this.koichi.setVisible(false);
         }
 
-        // talk with Noriko when in collision
+        // talk with Noriko when collided
         if (this.norikoDialog.getIsTalkingToMe()) {
             this.norikoDialog.update();
 
@@ -288,7 +313,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             duration: 5000,
             onComplete: () => {
                 this.music.stop();
-                this.scene.start('hotelAndDepartureScene')
+                this.scene.start('hotelScene')
             }
         });
     }
