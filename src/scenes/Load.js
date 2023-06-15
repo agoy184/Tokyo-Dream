@@ -45,10 +45,6 @@ class Load extends Phaser.Scene {
         this.load.image('NorikoSad', 'noriko_spr_sad.png')
         this.load.image('Kyoko', 'kyoko_spr.png')
         this.load.image('Keizo', 'keizo_spr.png')
-        this.load.image('Person', 'old_sprites/EmptyChibi.png')
-        this.load.image('ship', 'old_sprites/smallship.png');
-        this.load.image('bigShip', 'old_sprites/spaceship.png');
-        this.load.image('rocket', 'old_sprites/rocket.png');
 
         // background images
         this.load.image('arrival_and_neglect_background', 'arrival_and_neglect_background.png')

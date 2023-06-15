@@ -30,9 +30,12 @@ class Funeral extends Phaser.Scene {
 
         //this.grandpa = this.physics.add.sprite(150, 270, 'ShukichiSad', 0);
         this.grandpa = new Player(this, 150, 270, 'ShukichiSad', 0);
+        this.grandma = this.physics.add.sprite(game.config.width / 1.5, game.config.height / 1.5, 'TomiDead', 0).setImmovable();
 
         this.grandpa.body.setCollideWorldBounds(true);
         this.grandpa.body.onCollide = true;
+
+        this.grandma.body.onCollide = true;
 
         // dialog for Shige
         this.shigeScript = [
@@ -212,6 +215,8 @@ class Funeral extends Phaser.Scene {
 
         // Shukichi moves
         this.grandpa.update();
+
+        this.physics.collide(this.grandpa, this.grandma);
 
         if (this.shige.body.onCollide) {
             this.physics.collide(this.grandpa, this.shige);
