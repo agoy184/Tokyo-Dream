@@ -288,7 +288,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             duration: 5000,
             onComplete: () => {
                 this.music.stop();
-                this.scene.start('hotelAndDepartureScene')
+                this.scene.start('hotelScene')
             }
         });
     }
