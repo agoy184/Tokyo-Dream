@@ -24,7 +24,7 @@ class Hotel extends Phaser.Scene {
         this.tween = this.tweens.add({
             targets: this.music,
             volume: {from: 0, to: 0.5},
-            duration: 5000,
+            duration: 3000,
         });
 
         this.grandpa = new Player(this, game.config.width / 2.25, game.config.height / 1.75, 'Shukichi', 0);
@@ -48,7 +48,7 @@ class Hotel extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         // fade scene in from black at start of scene
-        this.cam = this.cameras.main.fadeIn(5000, 0, 0, 0);
+        this.cam = this.cameras.main.fadeIn(3000, 0, 0, 0);
 
         // to start the dialog update
         this.dialogReady = false;

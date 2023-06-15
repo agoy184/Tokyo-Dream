@@ -21,7 +21,7 @@ class Departure extends Phaser.Scene {
         this.tween = this.tweens.add({
             targets: this.music,
             volume: {from: 0, to: 0.5},
-            duration: 5000,
+            duration: 2000,
         });
 
         this.grandpa = new Player(this, game.config.width / 2.25, game.config.height / 1.5, 'Shukichi', 0);

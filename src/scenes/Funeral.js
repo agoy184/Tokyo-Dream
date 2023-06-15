@@ -28,7 +28,7 @@ class Funeral extends Phaser.Scene {
         this.tween = this.tweens.add({
             targets: this.music,
             volume: {from: 0, to: 1},
-            duration: 5000,
+            duration: 3000,
         });
 
         // Define keys
@@ -206,7 +206,7 @@ class Funeral extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         // fade scene in from black at start of scene
-        this.cam = this.cameras.main.fadeIn(5000, 0, 0, 0);
+        this.cam = this.cameras.main.fadeIn(3000, 0, 0, 0);
 
         // enable player input after camera finished fading in
         this.cam.on('camerafadeincomplete', function() {

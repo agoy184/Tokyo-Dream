@@ -44,7 +44,7 @@ class Menu extends Phaser.Scene{
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             // Play mode
             this.sound.play('sfx_select');            
-            this.scene.start("arrivalAndNeglectScene");    
+            this.scene.start("introScene");    
         }
 
         if (Phaser.Input.Keyboard.JustDown(keyD)) {

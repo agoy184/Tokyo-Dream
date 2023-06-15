@@ -34,7 +34,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
         this.tween = this.tweens.add({
             targets: this.music,
             volume: {from: 0, to: 1},
-            duration: 5000,
+            duration: 3000,
         });
 
         // Define keys
@@ -70,7 +70,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
         this.physics.add.collider(this.grandma, terrainLayer);
        
         // fade scene in from black at start of scene
-        this.cam = this.cameras.main.fadeIn(5000, 0, 0, 0);
+        this.cam = this.cameras.main.fadeIn(3000, 0, 0, 0);
 
         // enable player input after camera finished fading in
         this.cam.on('camerafadeincomplete', function() {
@@ -95,7 +95,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
 
         // dialog for Noriko
         this.norikoScript = [
-            ["Noriko_Dialog", "Welcome to Tokyo mom and dad, it’s good to see you two again."],
+            ["Noriko_Dialog", "Welcome to Tokyo mother and father, it’s good to see you two again."],
             ["Tomi_Dialog", "It’s been quite a long time."],
             ["Shukichi_Dialog", "It’s good to see you again too. Have you been keeping busy at work?"],
             ["Noriko_Dialog", "Yes. We were quite busy a few months ago, but we’re not so busy now."],
