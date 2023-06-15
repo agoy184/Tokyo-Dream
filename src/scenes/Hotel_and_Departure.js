@@ -21,8 +21,8 @@ class Hotel_and_Departure extends Phaser.Scene {
             duration: 5000,
         });
 
-        this.grandpa = this.physics.add.sprite(150, 270, 'Shukichi', 0);
-        this.grandma = this.physics.add.sprite(240, 270, 'Tomi', 0);
+        this.grandpa = new Player(this, game.config.width / 1.75, game.config.height / 2, 'Shukichi', 0);
+        this.grandma = new Player(this, game.config.width / 2.25, game.config.height / 2, 'Tomi', 0);
 
         // script for the scene
         this.hotelScript = [
@@ -55,6 +55,7 @@ class Hotel_and_Departure extends Phaser.Scene {
         this.cursors = this.input.keyboard.createCursorKeys();
 
         // to give a "night feel"
+        this.cameras.main.setBackgroundColor('rgba(0, 0, 0, 1)');
         this.cameras.main.setAlpha(0.5);
 
         // fade scene in from black at start of scene

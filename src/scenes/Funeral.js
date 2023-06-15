@@ -34,7 +34,14 @@ class Funeral extends Phaser.Scene {
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-        this.grandpa = this.physics.add.sprite(150, 270, 'ShukichiSad', 0);
+        //this.grandpa = this.physics.add.sprite(150, 270, 'ShukichiSad', 0);
+        this.grandpa = new Player(this, 150, 270, 'ShukichiSad', 0);
+        this.grandma = this.physics.add.sprite(game.config.width / 1.5, game.config.height / 1.5, 'TomiDead', 0).setImmovable();
+
+        this.grandpa.body.setCollideWorldBounds(true);
+        this.grandpa.body.onCollide = true;
+
+        this.grandma.body.onCollide = true;
 
         // dialog for Shige
         this.shigeScript = [
@@ -95,19 +102,101 @@ class Funeral extends Phaser.Scene {
             ["Shukichi_Dialog_Sad", "It’s strange. We have children of our own, yet you’ve done the most for us, and you’re not even a blood relative. Thank you."],
         ];
 
-        // characters
-        this.shige = this.add.image(game.config.width / 10, game.config.height / 5, 'ShigeSad').setOrigin(0.5, 0.5).setInteractive();
-        this.koichi = this.add.image(game.config.width / 2, game.config.height / 5, 'KoichiSad').setOrigin(0.5, 0.5).setInteractive();
-        this.noriko = this.add.image(game.config.width / 1.25, game.config.height / 1.75, 'NorikoSad').setOrigin(0.5, 0.5).setInteractive();
-        this.keizo = this.add.image(game.config.width / 3, game.config.height / 2, 'Keizo').setOrigin(0.5, 0.5).setInteractive();
-        this.kyoko = this.add.image(game.config.width / 4, game.config.height / 7, 'Kyoko').setOrigin(0.5, 0.5).setInteractive();
-     
         // dialog once player collides with one of the characters
         this.shigeDialog = new Dialog(this, this.shigeScript, false, false, false);
         this.norikoDialog = new Dialog(this, this.norikoScript, false, false, false);
         this.koichiDialog = new Dialog(this, this.koichiScript, false, false, false);
         this.keizoDialog = new Dialog(this, this.keizoScript, false, false, false);
         this.kyokoDialog = new Dialog(this, this.kyokoScript, false, false, false);
+
+        // characters
+        this.shige = this.physics.add.sprite(game.config.width / 10, game.config.height / 5, 'ShigeSad').setOrigin(0.5, 0.5).setInteractive().setImmovable();
+        this.koichi = this.physics.add.sprite(game.config.width / 2, game.config.height / 5, 'KoichiSad').setOrigin(0.5, 0.5).setInteractive().setImmovable();
+        this.noriko = this.physics.add.sprite(game.config.width / 1.25, game.config.height / 1.75, 'NorikoSad').setOrigin(0.5, 0.5).setInteractive().setImmovable();
+        this.keizo = this.physics.add.sprite(game.config.width / 3, game.config.height / 2, 'Keizo').setOrigin(0.5, 0.5).setInteractive().setImmovable();
+        this.kyoko = this.physics.add.sprite(game.config.width / 4, game.config.height / 7, 'Kyoko').setOrigin(0.5, 0.5).setInteractive().setImmovable();
+    
+        // set colliders
+        this.shige.body.onCollide = true;
+        this.koichi.body.onCollide = true;
+        this.noriko.body.onCollide = true;
+        this.keizo.body.onCollide = true;
+        this.kyoko.body.onCollide = true;
+
+        // start dialog once collide with Shige, check conditionals before talking
+        this.physics.add.collider(this.grandpa, this.shige, () => {
+            this.shigeDialog.setIsShowing(true);
+            this.shigeDialog.setIsTalkingToMe(true);
+    
+            this.norikoDialog.setIsTalkingToSomeoneElse(true);
+            this.koichiDialog.setIsTalkingToSomeoneElse(true);
+            this.keizoDialog.setIsTalkingToSomeoneElse(true);
+            this.kyokoDialog.setIsTalkingToSomeoneElse(true);
+ 
+        }, () => {
+            return !this.shigeDialog.getIsShowing() && !this.shigeDialog.getIsTalkingToSomeoneElse()
+        });
+
+        // start dialog once collide with Koichi, check conditionals before talking
+        this.physics.add.collider(this.grandpa, this.koichi, () => {
+                this.koichiDialog.setIsShowing(true);
+                this.koichiDialog.setIsTalkingToMe(true);
+
+                this.norikoDialog.setIsTalkingToSomeoneElse(true);
+                this.shigeDialog.setIsTalkingToSomeoneElse(true);
+                this.keizoDialog.setIsTalkingToSomeoneElse(true);
+                this.kyokoDialog.setIsTalkingToSomeoneElse(true);
+ 
+        }, () => {
+            return this.shigeDialog.getFinishedDialog() && !this.koichiDialog.getIsShowing() && !this.koichiDialog.getIsTalkingToSomeoneElse()
+        });
+
+        // start dialog once collide with Noriko, check conditionals before talking
+        this.physics.add.collider(this.grandpa, this.noriko, () => {
+            this.norikoDialog.setIsShowing(true);
+            this.norikoDialog.setIsTalkingToMe(true);
+
+            this.shigeDialog.setIsTalkingToSomeoneElse(true);
+            this.koichiDialog.setIsTalkingToSomeoneElse(true);
+            this.keizoDialog.setIsTalkingToSomeoneElse(true);
+            this.kyokoDialog.setIsTalkingToSomeoneElse(true);
+ 
+        }, () => {
+            return this.shigeDialog.getFinishedDialog() &&
+                   this.koichiDialog.getFinishedDialog() &&
+                   this.keizoDialog.getFinishedDialog() &&
+                   this.kyokoDialog.getFinishedDialog() && 
+                   !this.norikoDialog.getIsShowing() &&
+                   !this.norikoDialog.getIsTalkingToSomeoneElse();
+        });
+
+        // start dialog once collide with Keizo, check conditionals before talking
+        this.physics.add.collider(this.grandpa, this.keizo, () => {
+            this.keizoDialog.setIsShowing(true);
+            this.keizoDialog.setIsTalkingToMe(true);
+
+            this.shigeDialog.setIsTalkingToSomeoneElse(true);
+            this.koichiDialog.setIsTalkingToSomeoneElse(true);
+            this.norikoDialog.setIsTalkingToSomeoneElse(true);
+            this.kyokoDialog.setIsTalkingToSomeoneElse(true);
+ 
+        }, () => {
+            return !this.keizoDialog.getIsShowing() && !this.keizoDialog.getIsTalkingToSomeoneElse();
+        });
+
+        // start dialog once collide with Kyoko, check conditionals before talking
+        this.physics.add.collider(this.grandpa, this.kyoko, () => {
+            this.kyokoDialog.setIsShowing(true);
+            this.kyokoDialog.setIsTalkingToMe(true);
+
+            this.shigeDialog.setIsTalkingToSomeoneElse(true);
+            this.koichiDialog.setIsTalkingToSomeoneElse(true);
+            this.keizoDialog.setIsTalkingToSomeoneElse(true);
+            this.norikoDialog.setIsTalkingToSomeoneElse(true);
+ 
+        }, () => {
+            return !this.kyokoDialog.getIsShowing() && !this.kyokoDialog.getIsTalkingToSomeoneElse();
+        });
 
         // to advance next dialog
         this.cursors = this.input.keyboard.createCursorKeys();
@@ -131,84 +220,30 @@ class Funeral extends Phaser.Scene {
         }
 
         // Shukichi moves
-        this.movePlayer(this.grandpa);
+        this.grandpa.update();
 
-        // check collision with Shige
-        if(this.checkCollision(this.grandpa, this.shige)) {
-            if (!this.shigeDialog.getIsShowing() && !this.shigeDialog.getIsTalkingToSomeoneElse()) {
-                this.shigeDialog.setIsShowing(true);
-                this.shigeDialog.setIsTalkingToMe(true);
+        this.physics.collide(this.grandpa, this.grandma);
 
-                this.norikoDialog.setIsTalkingToSomeoneElse(true);
-                this.koichiDialog.setIsTalkingToSomeoneElse(true);
-                this.keizoDialog.setIsTalkingToSomeoneElse(true);
-                this.kyokoDialog.setIsTalkingToSomeoneElse(true);
-            }
-                
-            this.stopPlayer(this.grandpa);
+        if (this.shige.body.onCollide) {
+            this.physics.collide(this.grandpa, this.shige);
+        }
+        console.log(this.shige.body.onCollide);
 
-        // check collision with Koichi, talk to him after talking to Shige
-        } else if (this.checkCollision(this.grandpa, this.koichi)) {
-            if (this.shigeDialog.getFinishedDialog() && !this.koichiDialog.getIsShowing() && !this.koichiDialog.getIsTalkingToSomeoneElse()) {
-                this.koichiDialog.setIsShowing(true);
-                this.koichiDialog.setIsTalkingToMe(true);
-
-                this.norikoDialog.setIsTalkingToSomeoneElse(true);
-                this.shigeDialog.setIsTalkingToSomeoneElse(true);
-                this.keizoDialog.setIsTalkingToSomeoneElse(true);
-                this.kyokoDialog.setIsTalkingToSomeoneElse(true);
-              }
-
-            this.stopPlayer(this.grandpa);
-
-        // check collision with Keizo
-        } else if (this.checkCollision(this.grandpa, this.keizo)) {
-            if (!this.keizoDialog.getIsShowing() && !this.keizoDialog.getIsTalkingToSomeoneElse()) {
-                this.keizoDialog.setIsShowing(true);
-                this.keizoDialog.setIsTalkingToMe(true);
-
-                this.shigeDialog.setIsTalkingToSomeoneElse(true);
-                this.koichiDialog.setIsTalkingToSomeoneElse(true);
-                this.norikoDialog.setIsTalkingToSomeoneElse(true);
-                this.kyokoDialog.setIsTalkingToSomeoneElse(true);
-             }
-
-            this.stopPlayer(this.grandpa);
-
-        // check collision with Kyoko
-        } else if (this.checkCollision(this.grandpa, this.kyoko)) {
-            if (!this.kyokoDialog.getIsShowing() && !this.kyokoDialog.getIsTalkingToSomeoneElse()) {
-                this.kyokoDialog.setIsShowing(true);
-                this.kyokoDialog.setIsTalkingToMe(true);
-
-                this.shigeDialog.setIsTalkingToSomeoneElse(true);
-                this.koichiDialog.setIsTalkingToSomeoneElse(true);
-                this.keizoDialog.setIsTalkingToSomeoneElse(true);
-                this.norikoDialog.setIsTalkingToSomeoneElse(true);
-             }
-
-            this.stopPlayer(this.grandpa);
-
-        // check collision with Noriko, talk to her once talked to all other characters
-        } else if (this.checkCollision(this.grandpa, this.noriko)) {
-            if (this.shigeDialog.getFinishedDialog() &&
-                this.koichiDialog.getFinishedDialog() &&
-                this.keizoDialog.getFinishedDialog() &&
-                this.kyokoDialog.getFinishedDialog() && 
-                !this.norikoDialog.getIsShowing() &&
-                !this.norikoDialog.getIsTalkingToSomeoneElse()) {
-                    this.norikoDialog.setIsShowing(true);
-                    this.norikoDialog.setIsTalkingToMe(true);
-
-                    this.shigeDialog.setIsTalkingToSomeoneElse(true);
-                    this.koichiDialog.setIsTalkingToSomeoneElse(true);
-                    this.keizoDialog.setIsTalkingToSomeoneElse(true);
-                    this.kyokoDialog.setIsTalkingToSomeoneElse(true);
-             }
-
-            this.stopPlayer(this.grandpa);
+        if (this.koichi.body.onCollide) {
+            this.physics.collide(this.grandpa, this.koichi);
         }
 
+        if (this.keizo.body.onCollide) {
+            this.physics.collide(this.grandpa, this.keizo);
+        }
+
+        if (this.kyoko.body.onCollide) {
+            this.physics.collide(this.grandpa, this.kyoko);
+        }
+
+        if (this.noriko.body.onCollide) {
+            this.physics.collide(this.grandpa, this.noriko);
+        }
 
         // talk with Shige when in collision
         if (this.shigeDialog.getIsTalkingToMe()) {
@@ -217,6 +252,7 @@ class Funeral extends Phaser.Scene {
             if (this.shigeDialog.getFinishedDialog()) {
                 this.shigeDialog.setIsShowing(false);
                 this.shigeDialog.setIsTalkingToMe(false);
+                this.shige.body.enable = false
 
                 this.norikoDialog.setIsTalkingToSomeoneElse(false);    
                 this.koichiDialog.setIsTalkingToSomeoneElse(false);    
@@ -232,11 +268,13 @@ class Funeral extends Phaser.Scene {
             if (this.koichiDialog.getFinishedDialog()) {
                 this.koichiDialog.setIsShowing(false);
                 this.koichiDialog.setIsTalkingToMe(false);
+                this.koichi.body.enable = false
 
                 this.shigeDialog.setIsTalkingToSomeoneElse(false);    
                 this.norikoDialog.setIsTalkingToSomeoneElse(false);    
                 this.keizoDialog.setIsTalkingToSomeoneElse(false);    
                 this.kyokoDialog.setIsTalkingToSomeoneElse(false);    
+
             }
         }
 
@@ -247,6 +285,7 @@ class Funeral extends Phaser.Scene {
             if (this.kyokoDialog.getFinishedDialog()) {
                 this.kyokoDialog.setIsShowing(false);
                 this.kyokoDialog.setIsTalkingToMe(false);
+                this.kyoko.body.enable = false
 
                 this.shigeDialog.setIsTalkingToSomeoneElse(false);    
                 this.koichiDialog.setIsTalkingToSomeoneElse(false);
@@ -262,6 +301,7 @@ class Funeral extends Phaser.Scene {
             if (this.keizoDialog.getFinishedDialog()) {
                 this.keizoDialog.setIsShowing(false);
                 this.keizoDialog.setIsTalkingToMe(false);
+                this.keizo.body.enable = false
 
                 this.shigeDialog.setIsTalkingToSomeoneElse(false);    
                 this.koichiDialog.setIsTalkingToSomeoneElse(false);
@@ -277,6 +317,7 @@ class Funeral extends Phaser.Scene {
             if (this.norikoDialog.getFinishedDialog()) {
                 this.norikoDialog.setIsShowing(false);
                 this.norikoDialog.setIsTalkingToMe(false);
+                this.noriko.body.enable = false
 
                 this.shigeDialog.setIsTalkingToSomeoneElse(false);    
                 this.koichiDialog.setIsTalkingToSomeoneElse(false);
@@ -298,56 +339,9 @@ class Funeral extends Phaser.Scene {
 
     }
 
-    // player movement
-    movePlayer(character) {
-        if (keyW.isDown && character.y >= 0) {
-            character.y -= 5;
-        } else if (keyS.isDown && character.y <= game.config.height - 55) {
-            character.y += 5;
-        }
-
-        if (keyA.isDown && character.x >= 0) {
-            character.x -= 5;
-        } else if (keyD.isDown && character.x <= game.config.width - 55) {
-            character.x += 5;
-        }
-    }
-
-    // prevent player from going through other characters
-    stopPlayer(grandpa) {
-        if (keyW.isDown) {
-                grandpa.y += 5;
-        }
-        if (keyS.isDown) {
-                grandpa.y -= 5;
-        }
-        if (keyA.isDown) {
-                grandpa.x += 5;
-        }
-        if (keyD.isDown) {
-                grandpa.x -= 5;
-        }
-    }
-
-    // checking if colliding
-    checkCollision(char1, char2) {
-        // ignore if either sprites are gone from the scene
-        if (char1 == null || char2 == null) {
-            return false;
-        }
-
-        if (char1.x < char2.x + 63 &&
-            char1.x + 63 > char2.x &&
-            char1.y < char2.y + 128 &&
-            char1.y + 128 > char2.y) {
-                return true;
-            } else {
-                return false;
-            }
-    }
-
     // End scene transition
     endScene() {
+        this.grandpa.body.reset(this.grandpa.x, this.grandpa.y);
         this.input.keyboard.enabled = false;
     
         this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);
