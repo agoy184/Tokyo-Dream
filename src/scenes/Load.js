@@ -53,8 +53,9 @@ class Load extends Phaser.Scene {
         this.load.image('arrival_and_neglect_background', 'arrival_and_neglect_background.png')
 
         // tilemap
-        this.load.image('s1Image', 'monoJPWallset.png')
+        this.load.image('wallset', 'monoJPWallset.png')
         this.load.tilemapTiledJSON('s1JSON', 'scene1.json')
+        this.load.tilemapTiledJSON('s3JSON', 'scene3.json')
 
         // dialog images
         this.load.image('dialog_box', 'dialog_box.png');

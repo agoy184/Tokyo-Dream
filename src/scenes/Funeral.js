@@ -4,6 +4,12 @@ class Funeral extends Phaser.Scene {
     }
 
     create() {
+        const map = this.add.tilemap('s3JSON');
+        const tileset = map.addTilesetImage('monoJPWallset', 'wallset');
+
+        const bgLayer = map.createLayer('background', tileset, 0, 0);
+        const walls = map.createLayer('walls', tileset, 0, 0);
+
         // disable user input until scene is fully faded in
         this.input.keyboard.enabled = false;
 

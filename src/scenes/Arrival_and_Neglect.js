@@ -6,7 +6,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
     create() {
         // tilemap stuff
         const map = this.add.tilemap('s1JSON');
-        const tileset = map.addTilesetImage('monoJPWallset', 's1Image');
+        const tileset = map.addTilesetImage('monoJPWallset', 'wallset');
 
         const bgLayer = map.createLayer('MonoBackground', tileset, 0, 0);
         const terrainLayer = map.createLayer('MonoTerrain', tileset, 0, 0);
