@@ -89,16 +89,8 @@ class Hotel extends Phaser.Scene {
         this.cam = this.cameras.main.fadeOut(1500, 0, 0, 0);
 
         this.cam.on('camerafadeoutcomplete', () => {
-            this.scene.start('departureScene');
+            this.scene.start('departureScene', {music: this.music});
         });
     
-        this.tween = this.tweens.add({
-            targets: this.music,
-            volume: {from: this.music.volume, to: 0},
-            duration: 1500,
-            onComplete: () => {
-                this.scene.start('funeralScene')
-            }
-        });
     }
 }

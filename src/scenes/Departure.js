@@ -3,6 +3,10 @@ class Departure extends Phaser.Scene {
         super('departureScene');
     }
 
+    init(data) {
+        this.music = data.music
+    }
+
     create() {
         // background
         const map = this.add.tilemap('s2OceanJSON');
@@ -17,10 +21,9 @@ class Departure extends Phaser.Scene {
         this.input.keyboard.enabled = false;
 
         // music
-        this.music = this.sound.get('scene_2_background_music');
         this.tween = this.tweens.add({
             targets: this.music,
-            volume: {from: 0, to: 0.5},
+            volume: {from: 0, to: 1},
             duration: 2000,
         });
 

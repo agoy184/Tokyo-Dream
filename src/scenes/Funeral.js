@@ -51,7 +51,7 @@ class Funeral extends Phaser.Scene {
         this.shigeScript = [
             ["Shige_Dialog_Sad", "How could this have happened?"],
             ["Shige_Dialog_Sad", "She looked so healthy in Tokyo."],
-            ["Shukichi_Dialog_Sad", "I don’t know…"],
+            ["Shukichi_Dialog_Sad", "I don’t know..."],
             ["Shukichi_Dialog_Sad", "Actually I remember she felt dizzy once when we were at Atami, but I didn’t think it was serious."],
             ["Shige_Dialog_Sad", "Why didn’t you tell us?! Koichi could’ve checked on her!"],
             ["Shige_Dialog_Sad", "I should’ve asked my workers to take over when she visited, I didn’t get to spend much much time with her."],
@@ -73,7 +73,7 @@ class Funeral extends Phaser.Scene {
             ["Kyoko_Dialog_Sad", "The trip might have been too much for her."],
             ["Shukichi_Dialog_Sad", "Possibly, unfortunately we don’t know the cause."],
             ["Kyoko_Dialog_Sad", "I should’ve convinced Mother to stay at home. Koichi, Shige, and Keizo should’ve taken time off to visit."],
-            ["Shukichi_Dialog_Sad", "But Kyoko, they’re busy with their own lives…"],
+            ["Shukichi_Dialog_Sad", "But Kyoko, they’re busy with their own lives..."],
             ["Kyoko_Dialog_Sad", "What’s the point of family if they’re like that?"],
             
         ];
