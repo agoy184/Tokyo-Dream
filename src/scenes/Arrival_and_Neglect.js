@@ -35,17 +35,23 @@ class Arrival_and_Neglect extends Phaser.Scene {
         keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
         keyD = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.D);
 
-        //this.grandpa = new Player(this, 150, 180, 'Shukichi', 0);
-        //this.grandma = new Player(this, 240, 240, 'Tomi', 0);
-        this.grandpa = this.physics.add.sprite(150, 270, 'Shukichi', 0);
-        this.grandma = this.physics.add.sprite(240, 270, 'Tomi', 0);
+        this.grandpa = new Player(this, game.config.width / 2, game.config.height / 6, 'Shukichi', 0);
+        this.grandma = new Player(this, game.config.width / 1.75, game.config.height / 6, 'Tomi', 0);
+
         this.grandpa.body.setCollideWorldBounds(true);
         this.grandma.body.setCollideWorldBounds(true);
+        this.grandpa.body.onOverlap = true;
+        this.grandma.body.onOverlap = true;
+        this.grandpa.body.onCollide = true;
+        this.grandma.body.onCollide = true;
 
+        // check overlap with Shukichi and Tomi
+        this.physics.add.overlap(this.grandpa, this.grandma);
+ 
         // enable collision
-        terrainLayer.setCollisionByProperty({ collides: true });
+        terrainLayer.setCollisionByProperty({collides: true});
        
-        // FIXME: doesn't collide??
+        // collide player with walls
         this.physics.add.collider(this.grandpa, terrainLayer);
         this.physics.add.collider(this.grandma, terrainLayer);
        
@@ -112,17 +118,59 @@ class Arrival_and_Neglect extends Phaser.Scene {
 
         ];
 
-        // characters for dialog
-        this.shige = this.add.image(game.config.width / 10, game.config.height / 5, 'Shige').setOrigin(0.5, 0.5).setInteractive();
-        this.koichi = this.add.image(game.config.width / 2, game.config.height / 5, 'Koichi').setOrigin(0.5, 0.5).setInteractive().setVisible(false);
-        this.noriko = this.add.image(game.config.width / 1.25, game.config.height / 1.75, 'Noriko').setOrigin(0.5, 0.5).setInteractive();
-     
         // dialog once player collides with one of the characters
         this.shigeDialog = new Dialog(this, this.shigeScript, false, false, false);
         this.norikoDialog = new Dialog(this, this.norikoScript, false, false, false);
         this.koichiDialog = new Dialog(this, this.koichiScript, false, false, false);
 
-        // to advance next dialog
+        // characters for dialog
+        this.shige = this.physics.add.sprite(game.config.width / 10, game.config.height / 1.85, 'Shige').setInteractive().setImmovable();
+        this.koichi = this.physics.add.sprite(game.config.width / 2, game.config.height / 5, 'Koichi').setInteractive().setVisible(false).setImmovable();
+        this.noriko = this.physics.add.sprite(game.config.width / 1.25, game.config.height / 1.75, 'Noriko').setInteractive().setImmovable();
+ 
+        // set colliders
+        this.shige.body.onCollide = true;
+        this.koichi.body.onCollide = true;
+        this.noriko.body.onCollide = true;
+
+        // collide with Shige, if not talking to someone else, dialog is showing, and Shige is visible, start dialog
+        this.physics.add.collider(this.grandpa, this.shige, () => {
+            this.shigeDialog.setIsShowing(true);
+            this.shigeDialog.setIsTalkingToMe(true);
+
+            this.norikoDialog.setIsTalkingToSomeoneElse(true);
+            this.koichiDialog.setIsTalkingToSomeoneElse(true);
+
+            console.log(this.shigeDialog.getFinishedDialog());
+        }, () => {
+            return this.shige.visible && !this.shigeDialog.getIsShowing() && !this.shigeDialog.getIsTalkingToSomeoneElse();
+        });
+
+        // collide with Koichi, if not talking to someone else, dialog is showing, and Koichi is visible, start dialog
+        this.physics.add.collider(this.grandpa, this.koichi, () => {
+            this.koichiDialog.setIsShowing(true);
+            this.koichiDialog.setIsTalkingToMe(true);
+
+            this.norikoDialog.setIsTalkingToSomeoneElse(true);
+            this.shigeDialog.setIsTalkingToSomeoneElse(true);
+ 
+        }, () => {
+            return this.koichi.visible && !this.koichiDialog.getIsShowing() && !this.koichiDialog.getIsTalkingToSomeoneElse();
+        });
+
+        // collide with Noriko, if not talking to someone else and dialog is showing, start dialog
+        this.physics.add.collider(this.grandpa, this.noriko, () => {
+            this.norikoDialog.setIsShowing(true);
+            this.norikoDialog.setIsTalkingToMe(true);
+
+            this.shigeDialog.setIsTalkingToSomeoneElse(true);
+            this.koichiDialog.setIsTalkingToSomeoneElse(true);
+ 
+        }, () => {
+            return !this.norikoDialog.getIsShowing() && !this.norikoDialog.getIsTalkingToSomeoneElse()
+        });
+
+        // to advance next dialog (for Dialog.js)
         this.cursors = this.input.keyboard.createCursorKeys();
 
         // to display Koichi sprite later
@@ -139,63 +187,40 @@ class Arrival_and_Neglect extends Phaser.Scene {
         }
 
         // Shukichi moves
-        this.movePlayer(this.grandpa);
+        this.grandpa.update();
 
-        // Tomi moves if not colliding with Shuukichi
-        if (!this.checkCollision(this.grandpa, this.grandma)) {
-            this.movePlayer(this.grandma);
+        // Tomi moves if not overlapping with Shuukichi
+        if (!this.physics.overlap(this.grandpa, this.grandma)) {
+            this.grandma.update();
         }
 
-        // display koichi character once talked to both shige and noriko
+        // collide with Shige if in scene
+        if (this.shige.visible) {
+            this.physics.collide(this.grandpa, this.shige);
+            this.physics.collide(this.grandma, this.shige);
+        }
+
+        // collide with Koichi if in scene
+        if (this.koichi.visible) {
+            this.physics.collide(this.grandpa, this.koichi);
+            this.physics.collide(this.grandma, this.koichi);
+        }
+
+        // collide with Noriko
+        this.physics.collide(this.grandpa, this.noriko);
+        this.physics.collide(this.grandma, this.noriko);
+
+        // display koichi character once talked to both Shige and Noriko
         if (!this.showedKoichi && this.shigeDialog.getFinishedDialog() && this.norikoDialog.getFinishedDialog()) {
             this.showedKoichi = true;
             this.koichi.setVisible(true);
         }
 
-        // check collision with Shige
-        if((this.checkCollision(this.grandpa, this.shige) && this.shige.visible) || (this.checkCollision(this.grandma, this.shige) && this.shige.visible)) {
-            if (!this.shigeDialog.getIsShowing() && !this.shigeDialog.getIsTalkingToSomeoneElse()) {
-                this.shigeDialog.setIsShowing(true);
-                this.shigeDialog.setIsTalkingToMe(true);
-
-                this.norikoDialog.setIsTalkingToSomeoneElse(true);
-                this.koichiDialog.setIsTalkingToSomeoneElse(true);
-            }
-                
-            this.stopPlayer(this.grandpa, this.grandma);
-
-        // check collision with Koichi
-        } else if ((this.checkCollision(this.grandpa, this.koichi) && this.koichi.visible) ||
-                   (this.checkCollision(this.grandma, this.koichi) && (this.koichi.visible))) {
-
-            if (!this.koichiDialog.getIsShowing() && !this.koichiDialog.getIsTalkingToSomeoneElse()) {
-                this.koichiDialog.setIsShowing(true);
-                this.koichiDialog.setIsTalkingToMe(true);
-
-                this.norikoDialog.setIsTalkingToSomeoneElse(true);
-                this.shigeDialog.setIsTalkingToSomeoneElse(true);
-             }
-
-            this.stopPlayer(this.grandpa, this.grandma);
-
-        // check collision with Noriko
-        } else if (this.checkCollision(this.grandpa, this.noriko) || this.checkCollision(this.grandma, this.noriko)) {
-            if (!this.norikoDialog.getIsShowing() && !this.norikoDialog.getIsTalkingToSomeoneElse()) {
-                this.norikoDialog.setIsShowing(true);
-                this.norikoDialog.setIsTalkingToMe(true);
-
-                this.shigeDialog.setIsTalkingToSomeoneElse(true);
-                this.koichiDialog.setIsTalkingToSomeoneElse(true);
-            }
-
-            this.stopPlayer(this.grandpa, this.grandma);
-        }
-
-
-        // talk with Shige when in collision
+        // talk with Shige when collided
         if (this.shigeDialog.getIsTalkingToMe()) {
             this.shigeDialog.update();
 
+            // change conditionals once done talking
             if (this.shigeDialog.getFinishedDialog()) {
                 this.shigeDialog.setIsShowing(false);
                 this.shigeDialog.setIsTalkingToMe(false);
@@ -213,6 +238,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
         if (this.koichiDialog.getIsTalkingToMe()) {
             this.koichiDialog.update();
 
+            // change conditionals once done talking
             if (this.koichiDialog.getFinishedDialog()) {
                 this.koichiDialog.setIsShowing(false);
                 this.koichiDialog.setIsTalkingToMe(false);
@@ -226,9 +252,11 @@ class Arrival_and_Neglect extends Phaser.Scene {
             this.koichi.setVisible(false);
         }
 
+        // talk with Noriko when in collision
         if (this.norikoDialog.getIsTalkingToMe()) {
             this.norikoDialog.update();
 
+            // change conditionals once done talking
             if (this.norikoDialog.getFinishedDialog()) {
                 this.norikoDialog.setIsShowing(false);
                 this.norikoDialog.setIsTalkingToMe(false);
@@ -246,60 +274,10 @@ class Arrival_and_Neglect extends Phaser.Scene {
 
     }
 
-    // player movement
-    movePlayer(character) {
-        if (keyW.isDown && character.y >= 0) {
-            character.y -= 5;
-        } else if (keyS.isDown && character.y <= game.config.height - 55) {
-            character.y += 5;
-        }
-
-        if (keyA.isDown && character.x >= 0) {
-            character.x -= 5;
-        } else if (keyD.isDown && character.x <= game.config.width - 55) {
-            character.x += 5;
-        }
-    }
-
-    // stop player from going into the other characters
-    stopPlayer(grandpa, grandma) {
-        if (keyW.isDown) {
-                grandpa.y += 5;
-                grandma.y += 5;
-        }
-        if (keyS.isDown) {
-                grandpa.y -= 5;
-                grandma.y -= 5;
-        }
-        if (keyA.isDown) {
-                grandpa.x += 5;
-                grandma.x += 5;
-        }
-        if (keyD.isDown) {
-                grandpa.x -= 5;
-                grandma.x -= 5;
-        }
-    }
-
-    // check if colliding
-    checkCollision(char1, char2) {
-        // ignore if either sprites are gone from the scene
-        if (char1 == null || char2 == null) {
-            return false;
-        }
-
-        if (char1.x < char2.x + 63 &&
-            char1.x + 63 > char2.x &&
-            char1.y < char2.y + 128 &&
-            char1.y + 128 > char2.y) {
-                return true;
-            } else {
-                return false;
-            }
-    }
-
     // End scene transitions
     endScene() {
+        this.grandpa.body.reset(this.grandpa.x, this.grandpa.y);
+        this.grandma.body.reset(this.grandma.x, this.grandma.y);
         this.input.keyboard.enabled = false;
     
         this.cam = this.cameras.main.fadeOut(5000, 0, 0, 0);

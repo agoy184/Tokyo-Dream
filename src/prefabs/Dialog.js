@@ -61,7 +61,7 @@ class Dialog {
 
         // remove all visuals and change conditionals once reached end of dialog
         // user must press space to end it
-        if (this.currDialogIndex == this.dialog.length && Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
+        if (this.currDialogIndex >= this.dialog.length && Phaser.Input.Keyboard.JustDown(this.scene.cursors.space)) {
             // remove all dialog visuals
             this.currCharacter.setVisible(false);
             this.currText.setVisible(false);
