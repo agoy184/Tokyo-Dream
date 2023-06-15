@@ -95,6 +95,7 @@ class Funeral extends Phaser.Scene {
         this.noriko = this.add.image(game.config.width / 1.25, game.config.height / 1.75, 'NorikoSad').setOrigin(0.5, 0.5).setInteractive();
         this.keizo = this.add.image(game.config.width / 3, game.config.height / 2, 'Keizo').setOrigin(0.5, 0.5).setInteractive();
         this.kyoko = this.add.image(game.config.width / 4, game.config.height / 7, 'Kyoko').setOrigin(0.5, 0.5).setInteractive();
+        this.tomi = this.add.image(3*game.config.width / 4, 4*game.config.height / 5, 'TomiDead').setOrigin(0.5, 0.5).setInteractive();
      
         // dialog once player collides with one of the characters
         this.shigeDialog = new Dialog(this, this.shigeScript, false, false, false);
@@ -201,8 +202,9 @@ class Funeral extends Phaser.Scene {
              }
 
             this.stopPlayer(this.grandpa);
+        } else if (this.checkCollision(this.grandpa, this.tomi)) {
+            this.stopPlayer(this.grandpa);
         }
-
 
         // talk with Shige when in collision
         if (this.shigeDialog.getIsTalkingToMe()) {

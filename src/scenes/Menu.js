@@ -30,7 +30,7 @@ class Menu extends Phaser.Scene{
     update(){
         if (Phaser.Input.Keyboard.JustDown(keySPACE)) {
             // Play mode
-            this.sound.play('sfx_select');
+            this.sound.play('sfx_select');            
             this.scene.start("arrivalAndNeglectScene");    
           }
           if (Phaser.Input.Keyboard.JustDown(keyD)) {
