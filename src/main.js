@@ -14,7 +14,7 @@ let config = {
     type: Phaser.AUTO,
     width: 640,
     height: 480,
-    backgroundColor: '#35A7FF',
+    backgroundColor: '#8C8C8C',
     pixelArt: true,
     autoCenter: true,
     physics: {
