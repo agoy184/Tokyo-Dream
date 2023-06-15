@@ -152,7 +152,7 @@ class Funeral extends Phaser.Scene {
                 this.kyokoDialog.setIsTalkingToSomeoneElse(true);
  
         }, () => {
-            return this.shigeDialog.getFinishedDialog() && !this.koichiDialog.getIsShowing() && !this.koichiDialog.getIsTalkingToSomeoneElse()
+            return !this.koichiDialog.getIsShowing() && !this.koichiDialog.getIsTalkingToSomeoneElse()
         });
 
         // start dialog once collide with Noriko, check conditionals before talking
@@ -228,28 +228,32 @@ class Funeral extends Phaser.Scene {
 
         this.physics.collide(this.grandpa, this.grandma);
 
+        // collide with Shige if collision enabled
         if (this.shige.body.onCollide) {
             this.physics.collide(this.grandpa, this.shige);
         }
-        console.log(this.shige.body.onCollide);
 
+        // collide with Koichi if collision enabled
         if (this.koichi.body.onCollide) {
             this.physics.collide(this.grandpa, this.koichi);
         }
 
+        // collide with Keizo if collision enabled
         if (this.keizo.body.onCollide) {
             this.physics.collide(this.grandpa, this.keizo);
         }
 
+        // collide with Kyoko if collision enabled
         if (this.kyoko.body.onCollide) {
             this.physics.collide(this.grandpa, this.kyoko);
         }
 
+        // collide with Noriko if collision enabled
         if (this.noriko.body.onCollide) {
             this.physics.collide(this.grandpa, this.noriko);
         }
 
-        // talk with Shige when in collision
+        // talk with Shige when collided
         if (this.shigeDialog.getIsTalkingToMe()) {
             this.shigeDialog.update();
 
@@ -265,7 +269,7 @@ class Funeral extends Phaser.Scene {
             }
         }
 
-        // talk with Koichi when in collision
+        // talk with Koichi when collided
         if (this.koichiDialog.getIsTalkingToMe()) {
             this.koichiDialog.update();
 
@@ -282,7 +286,7 @@ class Funeral extends Phaser.Scene {
             }
         }
 
-        // talk with Kyoko when in collision
+        // talk with Kyoko when collided
         if (this.kyokoDialog.getIsTalkingToMe()) {
             this.kyokoDialog.update();
 
@@ -298,7 +302,7 @@ class Funeral extends Phaser.Scene {
             }
         }
 
-        // talk with Keizo when in collision
+        // talk with Keizo when collided
         if (this.keizoDialog.getIsTalkingToMe()) {
             this.keizoDialog.update();
 
@@ -314,7 +318,7 @@ class Funeral extends Phaser.Scene {
             }
         }
 
-        // talk with Noriko when in collision
+        // talk with Noriko when collided
         if (this.norikoDialog.getIsTalkingToMe()) {
             this.norikoDialog.update();
 

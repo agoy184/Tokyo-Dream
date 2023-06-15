@@ -234,7 +234,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             this.shige.setVisible(false);
         }
 
-        // talk with Koichi when in collision
+        // talk with Koichi when collided
         if (this.koichiDialog.getIsTalkingToMe()) {
             this.koichiDialog.update();
 
@@ -252,7 +252,7 @@ class Arrival_and_Neglect extends Phaser.Scene {
             this.koichi.setVisible(false);
         }
 
-        // talk with Noriko when in collision
+        // talk with Noriko when collided
         if (this.norikoDialog.getIsTalkingToMe()) {
             this.norikoDialog.update();
 
